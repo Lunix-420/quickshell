@@ -17,8 +17,8 @@ Item {
 
     RectangularShadow {
         anchors.fill: powerBtn
-        blur: 10
-        spread: 0
+        blur: 5
+        spread: 1
         radius: 5
         color: powerBtn.hovered ? btnColor :'#000000'
         cached: true

@@ -4,6 +4,7 @@ import QtQuick.Controls
 import Quickshell.Io
 import QtQuick.Controls
 import QtQuick.Effects
+import "components"
 
 PanelWindow {
     anchors {
@@ -51,6 +52,7 @@ PanelWindow {
         }
 
         SquareButton {
+            id: launcherBtn
             btnText: "󰣇"
             fontSize: "52"
             btnColor: "#8AADF4"
@@ -59,10 +61,25 @@ PanelWindow {
         }
 
         SquareButton {
+            id: logoutBtn
             btnText: "󰤆"
             btnColor: "#ed8796"
             scriptPath: "~/.config/hypr/scripts/wlogout.sh"
             anchors.right: parent.right
+        }
+
+        DisplayButton {
+            id: clock
+            mainText: Qt.formatTime(new Date(), "HH:mm")
+            labelText: "⏰"
+            anchors.right: logoutBtn.left
+        }
+
+        DisplayButton {
+            id: calendar
+            mainText: Qt.formatDate(new Date(), "dddd, MMMM d")
+            labelText: "🗓️"
+            anchors.right: clock.left
         }
     }
 }
