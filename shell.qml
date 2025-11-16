@@ -12,7 +12,7 @@ PanelWindow {
         right: true
     }
 
-    implicitHeight: 60
+    implicitHeight: 65
     color: '#00000000'
 
     Item {
@@ -50,7 +50,18 @@ PanelWindow {
             color: '#363A4F'
         }
 
-        PowerButton {
+        SquareButton {
+            btnText: "󰣇"
+            fontSize: "52"
+            btnColor: "#8AADF4"
+            scriptPath: "~/.config/hypr/scripts/fuzzel.sh"
+            anchors.left: parent.left
+        }
+
+        SquareButton {
+            btnText: "󰤆"
+            btnColor: "#ed8796"
+            scriptPath: "~/.config/hypr/scripts/wlogout.sh"
             anchors.right: parent.right
         }
     }
