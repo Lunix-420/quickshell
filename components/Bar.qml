@@ -53,6 +53,7 @@ PanelWindow {
             color: '#363A4F'
         }
 
+        // Launcher Button
         SquareButton {
             id: launcherBtn
             btnText: "󰣇"
@@ -62,6 +63,7 @@ PanelWindow {
             anchors.left: parent.left
         }
 
+        // Logout Button
         SquareButton {
             id: logoutBtn
             btnText: "󰤆"
@@ -70,23 +72,81 @@ PanelWindow {
             anchors.right: parent.right
         }
 
+        // Time Display
         DisplayButton {
             id: clock
             mainText: Qt.formatTime(new Date(), "HH:mm")
             labelText: "⏰"
             anchors.right: logoutBtn.left
 
+            Timer {
+                id: clockTimer
+                interval: 1000
+                running: true
+                repeat: true
+                onTriggered: {
+                    clock.mainText = Qt.formatTime(new Date(), "HH:mm")
+                }
+            }
+
             onRequestShowPopover: {
-                // Forward the request to the ShellRoot via the PanelWindow's signal
+
                 root.displayButtonClicked()
             }
         }
 
+        // Date Display
         DisplayButton {
             id: calendar
             mainText: Qt.formatDate(new Date(), "dddd, MMMM d")
             labelText: "🗓️"
             anchors.right: clock.left
+
+            Timer {
+                id: calendarTimer
+                interval: 1000
+                running: true
+                repeat: true
+                onTriggered: {
+                    calendar.mainText = Qt.formatDate(new Date(), "dddd, MMMM d")
+                }
+            }
+
+            onRequestShowPopover: {
+                root.displayButtonClicked()
+            }
+        }
+
+        // CPU Usage and Temperature
+        DisplayButton {
+            id: gpu
+            mainText: "25%|38°C"
+            labelText: "🖥️"
+            anchors.right: calendar.left
+
+            onRequestShowPopover: {
+                root.displayButtonClicked()
+            }
+        }
+
+        // GPU Usage and Temperature
+        DisplayButton {
+            id: cpu
+            mainText: "25%|38°C"
+            labelText: "🧠"
+            anchors.right: gpu.left
+
+            onRequestShowPopover: {
+                root.displayButtonClicked()
+            }
+        }
+
+        // Network Usage
+        DisplayButton {
+            id: network
+            mainText: "120KB/s|1.2MB/s"
+            labelText: "🌐"
+            anchors.right: cpu.left
 
             onRequestShowPopover: {
                 root.displayButtonClicked()
