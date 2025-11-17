@@ -16,8 +16,8 @@ ShellRoot {
         id: popover
         visible: false
         exclusiveZone: 0 
-        width: 400
-        height: 300
+        implicitWidth: 400
+        implicitHeight: 300
         anchors{
             top: true
         }
