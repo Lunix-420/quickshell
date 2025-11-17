@@ -21,7 +21,7 @@ Item {
         blur: 5
         spread: 1
         radius: 20
-        color: powerBtn.hovered ? btnColor :'#000000'
+        color:'#000000'
         cached: true
     }
 
@@ -40,7 +40,7 @@ Item {
 
     background: Rectangle {
         id: backgroundRect
-        color: powerBtn.hovered ? btnColor :"#363A4F"
+        color:"#363A4F"
         radius: 20             
     }
 
