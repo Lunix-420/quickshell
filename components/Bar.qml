@@ -5,16 +5,17 @@ import QtQuick
 import QtQuick.Effects
 
 PanelWindow {
+    signal displayButtonClicked()
+
     id: root
+    implicitHeight: 65
+    color: '#00000000'
 
     anchors {
         top: true
         left: true
         right: true
     }
-
-    implicitHeight: 65
-    color: '#00000000'
 
     Item {
         anchors {
@@ -36,6 +37,7 @@ PanelWindow {
         }
 
         Rectangle {
+            id: backgroundRect
             anchors.fill: parent
             color: "#24273A"
         }
@@ -73,6 +75,11 @@ PanelWindow {
             mainText: Qt.formatTime(new Date(), "HH:mm")
             labelText: "⏰"
             anchors.right: logoutBtn.left
+
+            onRequestShowPopover: {
+                // Forward the request to the ShellRoot via the PanelWindow's signal
+                root.displayButtonClicked()
+            }
         }
 
         DisplayButton {
@@ -80,6 +87,10 @@ PanelWindow {
             mainText: Qt.formatDate(new Date(), "dddd, MMMM d")
             labelText: "🗓️"
             anchors.right: clock.left
+
+            onRequestShowPopover: {
+                root.displayButtonClicked()
+            }
         }
     }
 }

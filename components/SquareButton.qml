@@ -5,14 +5,12 @@ import QtQuick.Effects
 import QtQuick.Controls
 
 Item {
-    id: root
-
-    // Exposed properties for reuse
     property string btnText: "-"
     property string scriptPath: ""
     property string fontSize: "42"
     property string btnColor: "#cad3f5"
 
+    id: root
     implicitWidth: 65
     implicitHeight: 55
 

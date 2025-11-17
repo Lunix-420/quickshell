@@ -6,13 +6,13 @@ import QtQuick.Controls
 
 
 Item {
-    id: root
-
-    // Exposed properties for reuse
     property string scriptPath: ""
     property string mainText: "-"
     property string labelText: "-"
 
+    signal requestShowPopover()
+
+    id: root
     implicitWidth: powerBtn.implicitWidth+16
     implicitHeight: 55
 
@@ -26,16 +26,16 @@ Item {
     }
 
     Button {
-    id: powerBtn
-    anchors{
-        top: parent.top
-        left: parent.left
-        right: parent.right
-        bottom: parent.bottom
-        topMargin: 8.5
-        rightMargin: 4
-        leftMargin: 4
-        bottomMargin: 11     
+        id: powerBtn
+        anchors{
+            top: parent.top
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+            topMargin: 8.5
+            rightMargin: 4
+            leftMargin: 4
+            bottomMargin: 11     
     }
 
     background: Rectangle {
@@ -69,11 +69,7 @@ Item {
     }
 
     onClicked: {
-        if (root.scriptPath !== "") {
-            scriptRunner.exec({
-                command: ["sh", "-c", root.scriptPath]
-            })
-        }
+        requestShowPopover()
     }
   }
 }
