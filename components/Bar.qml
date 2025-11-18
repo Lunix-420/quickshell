@@ -6,7 +6,7 @@ import Quickshell.Io
 PanelWindow {
     id: root
 
-    signal requestShowPopover()
+    signal requestShowPopover(var screen)
 
     implicitHeight: 65
     color: '#00000000'
@@ -86,7 +86,7 @@ PanelWindow {
             labelText: "🌐"
             anchors.horizontalCenter: parent.horizontalCenter
             onRequestShowPopover: {
-                root.requestShowPopover();
+                root.requestShowPopover(root.screen);
             }
         }
 
@@ -98,7 +98,7 @@ PanelWindow {
             labelText: "⏰"
             anchors.right: logoutBtn.left
             onRequestShowPopover: {
-                root.requestShowPopover();
+                root.requestShowPopover(root.screen);
             }
 
             Timer {
@@ -122,7 +122,7 @@ PanelWindow {
             labelText: "🗓️"
             anchors.right: clock.left
             onRequestShowPopover: {
-                root.requestShowPopover();
+                root.requestShowPopover(root.screen);
             }
 
             Timer {
@@ -144,7 +144,7 @@ PanelWindow {
 
             anchors.right: calendar.left
             onRequestShowPopover: {
-                root.requestShowPopover();
+                root.requestShowPopover(root.screen);
             }
         }
 
@@ -154,7 +154,7 @@ PanelWindow {
 
             anchors.right: gpu.left
             onRequestShowPopover: {
-                root.requestShowPopover();
+                root.requestShowPopover(root.screen);
             }
         }
 
@@ -164,7 +164,7 @@ PanelWindow {
 
             anchors.right: memory.left
             onRequestShowPopover: {
-                root.requestShowPopover();
+                root.requestShowPopover(root.screen);
             }
         }
 
@@ -174,7 +174,7 @@ PanelWindow {
 
             anchors.right: cpu.left
             onRequestShowPopover: {
-                root.requestShowPopover();
+                root.requestShowPopover(root.screen);
             }
         }
 

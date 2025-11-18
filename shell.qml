@@ -6,12 +6,34 @@ import "components"
 ShellRoot {
     id: root
 
-    Bar {
-        id: bar
+    Variants {
+        model: Quickshell.screens
 
-        onRequestShowPopover: {
-            popover.visible = !popover.visible;
+        Bar {
+            required property var modelData
+
+            screen: modelData
+            onRequestShowPopover: function(screenRef) {
+                if (screenRef === undefined || screenRef === null)
+                    return ;
+
+                const wasVisible = popover.visible;
+                const sameScreen = popover.screen === screenRef;
+                if (!wasVisible) {
+                    popover.screen = screenRef;
+                    popover.visible = true;
+                    return ;
+                }
+                if (sameScreen) {
+                    popover.visible = false;
+                    return ;
+                }
+                popover.visible = false;
+                popover.screen = screenRef;
+                popover.visible = true;
+            }
         }
+
     }
 
     PanelWindow {
