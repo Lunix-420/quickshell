@@ -32,8 +32,9 @@ Item {
     }
 
     function updateMainText() {
-        const usageInt = Math.round(memoryUsage);
-        memory.mainText = (usageInt / 1024 ** 2).toFixed(1) + "GB";
+        const usageInGb = (memoryUsage / 1024 ** 2).toFixed(2);
+        const paddedUsage = usageInGb < 10 ? " " + usageInGb : usageInGb;
+        memory.mainText = (paddedUsage) + "GB";
     }
 
     width: memory.implicitWidth
@@ -42,7 +43,7 @@ Item {
     DisplayButton {
         id: memory
 
-        mainText: "--.-GB"
+        mainText: "--.--GB"
         labelText: "💾"
         onRequestShowPopover: {
             root.requestShowPopover();
