@@ -78,6 +78,18 @@ PanelWindow {
             anchors.right: parent.right
         }
 
+        // Firefox Title Placeholder
+        DisplayButton {
+            id: titlePlaceholder
+
+            mainText: "Firefox Devloper Edition"
+            labelText: "🌐"
+            anchors.horizontalCenter: parent.horizontalCenter
+            onRequestShowPopover: {
+                root.requestShowPopover();
+            }
+        }
+
         // Time Display
         DisplayButton {
             id: clock

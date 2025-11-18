@@ -11,7 +11,7 @@ Item {
     property string fontSize: "42"
     property string btnColor: "#cad3f5"
 
-    implicitWidth: 65
+    implicitWidth: 61
     implicitHeight: 55
 
     RectangularShadow {
@@ -43,8 +43,8 @@ Item {
             right: parent.right
             bottom: parent.bottom
             topMargin: 5
-            rightMargin: 10
-            leftMargin: 10
+            rightMargin: 8
+            leftMargin: 8
             bottomMargin: 8
         }
 

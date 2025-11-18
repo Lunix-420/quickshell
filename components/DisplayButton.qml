@@ -69,9 +69,9 @@ Item {
 
                 text: mainText
                 font.family: "ComicShannsMono Nerd Font Mono"
-                font.pixelSize: 18
+                font.pixelSize: 17
                 color: "#cad3f5"
-                topPadding: 5
+                topPadding: 6
             }
 
         }
