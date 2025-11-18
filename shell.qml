@@ -6,10 +6,16 @@ import "components"
 ShellRoot {
     id: root
 
+    property var popoverAnchor: null
+
     Variants {
+        id: screens
+
         model: Quickshell.screens
 
         Bar {
+            id: bar
+
             required property var modelData
 
             screen: modelData
@@ -43,9 +49,37 @@ ShellRoot {
         exclusiveZone: 0
         implicitWidth: 400
         implicitHeight: 300
+        color: '#6a000000'
 
         anchors {
             top: true
+            left: true
+            right: true
+        }
+
+        margins {
+            top: -12
+        }
+
+        Rectangle {
+            id: cpuPopoverContent
+
+            implicitHeight: 300
+            implicitWidth: 400
+        }
+
+        Rectangle {
+            id: gpuPopoverContent
+
+            implicitHeight: 300
+            implicitWidth: 400
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                popover.visible = false;
+            }
         }
 
     }
