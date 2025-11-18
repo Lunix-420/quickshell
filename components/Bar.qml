@@ -106,7 +106,7 @@ PanelWindow {
         DisplayButton {
             id: calendar
 
-            mainText: Qt.formatDate(new Date(), "dddd, MMMM dd")
+            mainText: "We" + Qt.formatDate(new Date(), "dddd, MMMM dd")
             labelText: "🗓️"
             anchors.right: clock.left
             onRequestShowPopover: {
@@ -120,15 +120,15 @@ PanelWindow {
                 running: true
                 repeat: true
                 onTriggered: {
-                    calendar.mainText = Qt.formatDate(new Date(), "dddd, MMMM dd");
+                    calendar.mainText = "We" + Qt.formatDate(new Date(), "dddd, MMMM dd");
                 }
             }
 
         }
 
-        // Memory Usage
-        MemoryWidget {
-            id: memory
+        // GPU Usage and Temperature
+        GpuWidget {
+            id: gpu
 
             anchors.right: calendar.left
             onRequestShowPopover: {
@@ -136,11 +136,11 @@ PanelWindow {
             }
         }
 
-        // GPU Usage and Temperature
-        GpuWidget {
-            id: gpu
+        // Memory Usage
+        MemoryWidget {
+            id: memory
 
-            anchors.right: memory.left
+            anchors.right: gpu.left
             onRequestShowPopover: {
                 root.requestShowPopover();
             }
@@ -150,18 +150,16 @@ PanelWindow {
         CpuWidget {
             id: cpu
 
-            anchors.right: gpu.left
+            anchors.right: memory.left
             onRequestShowPopover: {
                 root.requestShowPopover();
             }
         }
 
         // Network Usage
-        DisplayButton {
+        NetworkWidget {
             id: network
 
-            mainText: "5.6MB/s|1.2MB/s"
-            labelText: "🌍"
             anchors.right: cpu.left
             onRequestShowPopover: {
                 root.requestShowPopover();

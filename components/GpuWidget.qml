@@ -25,7 +25,7 @@ Item {
     DisplayButton {
         id: gpu
 
-        mainText: "5%|38°C"
+        mainText: "--%|--°C"
         labelText: "🖥️"
         onRequestShowPopover: {
             root.requestShowPopover();

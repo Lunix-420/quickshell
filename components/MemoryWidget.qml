@@ -6,7 +6,6 @@ import Quickshell.Io
 Item {
     id: root
 
-    property var previousProcStats: parseProcStats()
     property var memoryUsage: null
 
     signal requestShowPopover()
