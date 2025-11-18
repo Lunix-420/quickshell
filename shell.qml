@@ -1,25 +1,31 @@
 import QtQuick
 import QtQuick.Controls
 import Quickshell
-
 import "components"
 
 ShellRoot {
     id: root
-    Bar { id: bar
+
+    Bar {
+        id: bar
+
         onDisplayButtonClicked: {
-            popover.visible = !popover.visible
+            popover.visible = !popover.visible;
         }
     }
 
     PanelWindow {
         id: popover
+
         visible: false
-        exclusiveZone: 0 
+        exclusiveZone: 0
         implicitWidth: 400
         implicitHeight: 300
-        anchors{
+
+        anchors {
             top: true
         }
+
     }
+
 }

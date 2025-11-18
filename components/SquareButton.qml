@@ -1,16 +1,16 @@
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Effects
 import Quickshell.Io
 
-import QtQuick
-import QtQuick.Effects
-import QtQuick.Controls
-
 Item {
+    id: root
+
     property string btnText: "-"
     property string scriptPath: ""
     property string fontSize: "42"
     property string btnColor: "#cad3f5"
 
-    id: root
     implicitWidth: 65
     implicitHeight: 55
 
@@ -19,13 +19,25 @@ Item {
         blur: 5
         spread: 1
         radius: 5
-        color: powerBtn.hovered ? btnColor :'#000000'
+        color: powerBtn.hovered ? btnColor : '#000000'
         cached: true
     }
 
     Button {
         id: powerBtn
-        anchors{
+
+        font.family: "ComicShannsMono Nerd Font Mono"
+        font.pixelSize: fontSize
+        text: root.btnText // Use the exposed property
+        onClicked: {
+            if (root.scriptPath !== "")
+                scriptRunner.exec({
+                "command": ["sh", "-c", root.scriptPath]
+            });
+
+        }
+
+        anchors {
             top: parent.top
             left: parent.left
             right: parent.right
@@ -33,17 +45,13 @@ Item {
             topMargin: 5
             rightMargin: 10
             leftMargin: 10
-            bottomMargin: 8     
+            bottomMargin: 8
         }
-
-        font.family: "ComicShannsMono Nerd Font Mono"
-        font.pixelSize: fontSize
-        text: root.btnText  // Use the exposed property
 
         contentItem: Text {
             text: powerBtn.text
             font: powerBtn.font
-            color: powerBtn.hovered ? "#181926" : "#cad3f5" 
+            color: powerBtn.hovered ? "#181926" : "#cad3f5"
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             topPadding: 2
@@ -51,28 +59,26 @@ Item {
 
         background: Rectangle {
             id: backgroundRect
-            color: powerBtn.hovered ? btnColor :"#363A4F"
-            radius: 7             
+
+            color: powerBtn.hovered ? btnColor : "#363A4F"
+            radius: 7
         }
 
-        onClicked: {
-            if (root.scriptPath !== "") {
-                scriptRunner.exec({
-                    command: ["sh", "-c", root.scriptPath]
-                })
-            }
-        }
     }
 
     Process {
         id: scriptRunner
+
+        onExited: {
+            console.log("Script exited with code", exitCode);
+        }
+
         stdout: StdioCollector {
             onStreamFinished: {
-                console.log("Output:", text)
+                console.log("Output:", text);
             }
         }
-        onExited: {
-            console.log("Script exited with code", exitCode)
-        }
+
     }
+
 }
