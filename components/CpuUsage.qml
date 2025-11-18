@@ -73,7 +73,7 @@ Item {
             const procStats = parseProcStats();
             const usage = calculateCpuUsage(previousProcStats, procStats);
             previousProcStats = procStats;
-            setMainText(usage, "0");
+            setMainText(usage, "34");
         }
     }
 

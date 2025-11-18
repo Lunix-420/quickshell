@@ -106,7 +106,7 @@ PanelWindow {
         DisplayButton {
             id: calendar
 
-            mainText: Qt.formatDate(new Date(), "dddd, MMMM d")
+            mainText: Qt.formatDate(new Date(), "dddd, MMMM dd")
             labelText: "🗓️"
             anchors.right: clock.left
             onRequestShowPopover: {
@@ -120,19 +120,31 @@ PanelWindow {
                 running: true
                 repeat: true
                 onTriggered: {
-                    calendar.mainText = Qt.formatDate(new Date(), "dddd, MMMM d");
+                    calendar.mainText = Qt.formatDate(new Date(), "dddd, MMMM dd");
                 }
             }
 
+        }
+
+        // Memory Usage
+        DisplayButton {
+            id: memory
+
+            mainText: "3.8GB"
+            labelText: "💾"
+            anchors.right: calendar.left
+            onRequestShowPopover: {
+                root.displayButtonClicked();
+            }
         }
 
         // GPU Usage and Temperature
         DisplayButton {
             id: gpu
 
-            mainText: "25%|38°C"
+            mainText: "5%|38°C"
             labelText: "🖥️"
-            anchors.right: calendar.left
+            anchors.right: memory.left
             onRequestShowPopover: {
                 root.displayButtonClicked();
             }
@@ -152,8 +164,8 @@ PanelWindow {
         DisplayButton {
             id: network
 
-            mainText: "120KB/s|1.2MB/s"
-            labelText: "🌐"
+            mainText: "5.6MB/s|1.2MB/s"
+            labelText: "🌍"
             anchors.right: cpu.left
             onRequestShowPopover: {
                 root.displayButtonClicked();
