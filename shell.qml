@@ -9,7 +9,7 @@ ShellRoot {
     Bar {
         id: bar
 
-        onDisplayButtonClicked: {
+        onRequestShowPopover: {
             popover.visible = !popover.visible;
         }
     }

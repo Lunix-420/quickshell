@@ -59,7 +59,7 @@ Item {
         mainText: "--%|--°C"
         labelText: "🧠"
         onRequestShowPopover: {
-            root.displayButtonClicked();
+            root.requestShowPopover();
         }
     }
 

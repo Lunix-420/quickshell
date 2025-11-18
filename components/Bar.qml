@@ -6,7 +6,7 @@ import Quickshell.Io
 PanelWindow {
     id: root
 
-    signal displayButtonClicked()
+    signal requestShowPopover()
 
     implicitHeight: 65
     color: '#00000000'
@@ -86,7 +86,7 @@ PanelWindow {
             labelText: "⏰"
             anchors.right: logoutBtn.left
             onRequestShowPopover: {
-                root.displayButtonClicked();
+                root.requestShowPopover();
             }
 
             Timer {
@@ -110,7 +110,7 @@ PanelWindow {
             labelText: "🗓️"
             anchors.right: clock.left
             onRequestShowPopover: {
-                root.displayButtonClicked();
+                root.requestShowPopover();
             }
 
             Timer {
@@ -134,29 +134,27 @@ PanelWindow {
             labelText: "💾"
             anchors.right: calendar.left
             onRequestShowPopover: {
-                root.displayButtonClicked();
+                root.requestShowPopover();
             }
         }
 
         // GPU Usage and Temperature
-        DisplayButton {
+        GpuWidget {
             id: gpu
 
-            mainText: "5%|38°C"
-            labelText: "🖥️"
             anchors.right: memory.left
             onRequestShowPopover: {
-                root.displayButtonClicked();
+                root.requestShowPopover();
             }
         }
 
         // CPU Usage and Temperature
-        CpuUsage {
+        CpuWidget {
             id: cpu
 
             anchors.right: gpu.left
             onRequestShowPopover: {
-                root.displayButtonClicked();
+                root.requestShowPopover();
             }
         }
 
@@ -168,7 +166,7 @@ PanelWindow {
             labelText: "🌍"
             anchors.right: cpu.left
             onRequestShowPopover: {
-                root.displayButtonClicked();
+                root.requestShowPopover();
             }
         }
 
