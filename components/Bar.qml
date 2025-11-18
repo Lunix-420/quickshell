@@ -127,11 +127,9 @@ PanelWindow {
         }
 
         // Memory Usage
-        DisplayButton {
+        MemoryWidget {
             id: memory
 
-            mainText: "3.8GB"
-            labelText: "💾"
             anchors.right: calendar.left
             onRequestShowPopover: {
                 root.requestShowPopover();

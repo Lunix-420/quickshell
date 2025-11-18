@@ -1,5 +1,3 @@
-//nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader | tr -dc '[:digit:]'
-
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
