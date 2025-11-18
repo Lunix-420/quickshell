@@ -8,6 +8,7 @@ Item {
 
     property var previousProcStats: parseProcStats()
     property var cpuUsage: null
+    property var cpuTemperature: null
 
     signal requestShowPopover()
 
@@ -41,10 +42,10 @@ Item {
         return usage;
     }
 
-    function setMainText(usage, temperature) {
-        const usageInt = Math.round(usage);
+    function updateMainText() {
+        const usageInt = Math.round(cpuUsage);
         const usageString = (usageInt < 10 ? " " : "") + usageInt + "%";
-        const temperatureInt = Math.round(temperature);
+        const temperatureInt = Math.round(cpuTemperature);
         const temperatureString = (temperatureInt < 10 ? " " : "") + temperatureInt + "°C";
         cpu.mainText = `${usageString}|${temperatureString}`;
     }
@@ -71,9 +72,10 @@ Item {
         onTriggered: {
             procStatsView.reload();
             const procStats = parseProcStats();
-            const usage = calculateCpuUsage(previousProcStats, procStats);
+            cpuUsage = calculateCpuUsage(previousProcStats, procStats);
             previousProcStats = procStats;
-            setMainText(usage, "34");
+            updateMainText();
+            sensorsProcess.running = true;
         }
     }
 
@@ -81,6 +83,35 @@ Item {
         id: procStatsView
 
         path: "/proc/stat"
+    }
+
+    Process {
+        id: sensorsProcess
+
+        command: ["sensors"]
+        environment: ({
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8"
+        })
+
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const lines = text.split("\n");
+                for (const line of lines) {
+                    if (!line.includes("Tdie"))
+                        continue;
+
+                    const values = line.match(/[+-]?\d+\.?\d*/g);
+                    const floats = values.map((v) => {
+                        return parseFloat(v, 10);
+                    });
+                    const [current, high] = floats;
+                    cpuTemperature = current;
+                    updateMainText();
+                }
+            }
+        }
+
     }
 
 }
