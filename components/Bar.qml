@@ -79,15 +79,13 @@ PanelWindow {
         }
 
         // Firefox Title Placeholder
-        DisplayButton {
-            id: titlePlaceholder
+        FollowerWidget {
+            id: followerWidget
 
-            mainText: "Firefox Devloper Edition"
-            labelText: "🌐"
-            anchors.horizontalCenter: parent.horizontalCenter
-            onRequestShowPopover: {
-                root.requestShowPopover(root.screen);
+            anchors {
+                horizontalCenter: parent.horizontalCenter
             }
+
         }
 
         // Time Display
@@ -118,7 +116,7 @@ PanelWindow {
         DisplayButton {
             id: calendar
 
-            mainText: "We" + Qt.formatDate(new Date(), "dddd, MMMM dd")
+            mainText: Qt.formatDate(new Date(), "dddd, MMMM dd")
             labelText: "🗓️"
             anchors.right: clock.left
             onRequestShowPopover: {
@@ -132,7 +130,7 @@ PanelWindow {
                 running: true
                 repeat: true
                 onTriggered: {
-                    calendar.mainText = "We" + Qt.formatDate(new Date(), "dddd, MMMM dd");
+                    calendar.mainText = Qt.formatDate(new Date(), "ddd, MMM dd");
                 }
             }
 
