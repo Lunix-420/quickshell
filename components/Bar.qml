@@ -75,7 +75,7 @@ PanelWindow {
             anchors {
                 left: launcherBtn.right
                 verticalCenter: parent.verticalCenter
-                leftMargin: 10
+                leftMargin: -3
             }
 
         }
@@ -109,6 +109,7 @@ PanelWindow {
             mainText: Qt.formatTime(new Date(), "HH:mm")
             labelText: "⏰"
             anchors.right: logoutBtn.left
+            anchors.rightMargin: -3
             onRequestShowPopover: {
                 root.requestShowPopover(root.screen);
             }

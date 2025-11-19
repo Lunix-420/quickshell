@@ -25,7 +25,6 @@ Item {
         return map[num] || num.toString();
     }
 
-    width: parent.width
     height: 55
     Component.onCompleted: {
         Hyprland.refreshWorkspaces();
