@@ -25,7 +25,8 @@ Item {
         return map[num] || num.toString();
     }
 
-    height: 55
+    implicitHeight: 55
+    implicitWidth: workspaceRepeater.width
     Component.onCompleted: {
         Hyprland.refreshWorkspaces();
     }
@@ -34,7 +35,10 @@ Item {
         spacing: 0
 
         Repeater {
+            id: workspaceRepeater
+
             model: Hyprland.workspaces
+            implicitWidth: 44 * count
 
             Item {
                 implicitHeight: 55
@@ -82,7 +86,7 @@ Item {
                         font.weight: Font.Normal
                         font.pixelSize: 18
                         color: (modelData.active || modelData.urgent) ? "#181926" : "#cad3f5"
-                        topPadding: 1
+                        topPadding: 1.5
                         leftPadding: 5
                     }
 
