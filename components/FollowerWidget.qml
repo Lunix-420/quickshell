@@ -31,7 +31,11 @@ Item {
     }
 
     function getClassName(activeToplevel) {
-        return activeToplevel?.lastIpcObject.class ?? "", "no ipc object";
+        const ipcClass = activeToplevel?.lastIpcObject?.class ?? "no ipc object";
+        if (ipcClass !== "no ipc object") {
+            return ipcClass;
+        }
+        // Todo: find a class name via other means if no ipc object is available
     }
 
     function getTitle(activeToplevel) {
