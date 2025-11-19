@@ -12,6 +12,7 @@ Item {
     signal requestShowPopover()
     property string activeTitle: "No Active Window"
     property string activeIconSource: ""
+    property int maxCharacters: 60
 
     function updateActiveWindowInfo() {
         const activeToplevel = Hyprland.activeToplevel;
@@ -21,8 +22,10 @@ Item {
             root.activeIconSource = "";
             return;
         }
-
-        root.activeTitle = activeToplevel.title ?? "Unnamed Window";
+        const clampedTitle = activeToplevel.title.length > root.maxCharacters ?
+            activeToplevel.title.slice(0, root.maxCharacters - 3) + "..." :
+            activeToplevel.title;
+        root.activeTitle = clampedTitle ?? "Unnamed Window";
 
         const iconPath = root.resolveIconPath(activeToplevel);
         root.activeIconSource = iconPath;
@@ -134,7 +137,7 @@ Item {
                 font.family: "Comic Sans MS"
                 font.pixelSize: 18
                 color: "#cad3f5"
-                topPadding: 2
+                topPadding: 2.5
             }
 
         }
