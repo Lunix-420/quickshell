@@ -7,26 +7,26 @@ import Quickshell.Io
 import Quickshell.Widgets
 
 Item {
+    // Force no icon so fallback emoji shows
+
     id: root
 
-    signal requestShowPopover()
     property string activeTitle: "No Active Window"
     property string activeIconSource: ""
     property int maxCharacters: 60
+    property string fallBackEmoji: "🌀"
+
+    signal requestShowPopover()
 
     function updateActiveWindowInfo() {
         const activeToplevel = Hyprland.activeToplevel;
-
         if (!activeToplevel) {
             root.activeTitle = "No Active Window";
             root.activeIconSource = "";
-            return;
+            return ;
         }
-        const clampedTitle = activeToplevel.title.length > root.maxCharacters ?
-            activeToplevel.title.slice(0, root.maxCharacters - 3) + "..." :
-            activeToplevel.title;
+        const clampedTitle = activeToplevel.title.length > root.maxCharacters ? activeToplevel.title.slice(0, root.maxCharacters - 3) + "..." : activeToplevel.title;
         root.activeTitle = clampedTitle ?? "Unnamed Window";
-
         const iconPath = root.resolveIconPath(activeToplevel);
         root.activeIconSource = iconPath;
     }
@@ -35,23 +35,39 @@ Item {
         if (!toplevel)
             return "";
 
-        const appId = toplevel.wayland?.appId ?? "";
+        // Use wayland appId if available, otherwise fallback to XWayland class
+        var appId = "";
+        if (toplevel && toplevel.wayland && toplevel.wayland.appId)
+            appId = toplevel.wayland.appId;
+        else if (toplevel && toplevel["class"])
+            appId = toplevel["class"];
         if (appId === "")
-            return "";
+            root.fallBackEmoji = "❓";
 
-        const directIcon = Quickshell.iconPath(appId);
+        appId = appId.toLowerCase();
+        // If this is a Steam game and we can't resolve the icon, fallback to emoji
+        if (appId.startsWith("steam_app_")) {
+            root.fallBackEmoji = "🕹️";
+            return "";
+        }
+        // Normal lookup
+        let directIcon = Quickshell.iconPath(appId);
         if (directIcon && directIcon !== "")
             return directIcon;
 
-        const symbolicIcon = Quickshell.iconPath(`${appId}-symbolic`);
+        // Symbolic fallback
+        let symbolicIcon = Quickshell.iconPath(`${appId}-symbolic`);
         if (symbolicIcon && symbolicIcon !== "")
             return symbolicIcon;
 
+        // Nothing found → fallback emoji will display automatically
+        root.fallBackEmoji = "🌀";
         return "";
     }
 
     implicitWidth: button.implicitWidth + 16
     implicitHeight: 55
+    Component.onCompleted: root.updateActiveWindowInfo()
 
     Timer {
         interval: 1000
@@ -61,14 +77,12 @@ Item {
     }
 
     Connections {
-        target: Hyprland
-
         function onActiveToplevelChanged() {
             root.updateActiveWindowInfo();
         }
-    }
 
-    Component.onCompleted: root.updateActiveWindowInfo()
+        target: Hyprland
+    }
 
     RectangularShadow {
         anchors.fill: button
@@ -107,27 +121,29 @@ Item {
         contentItem: Row {
             anchors.centerIn: parent
             spacing: 4
-
-            IconImage {
-                id: toplevelIcon
-
-                visible: source !== ""
-                source: root.activeIconSource
-                implicitSize: 24
-                asynchronous: true
-                mipmap: true
-            }
+            leftPadding: 5
 
             Text {
                 id: fallbackEmoji
 
                 visible: root.activeIconSource === ""
-                text: "📣"
+                text: root.fallBackEmoji
                 font.family: "ComicShannsMono Nerd Font Mono"
                 font.pixelSize: 22
                 color: "#cad3f5"
-                leftPadding: 5
+                leftPadding: 4
                 topPadding: 4
+            }
+
+            IconImage {
+                id: toplevelIcon
+
+                visible: root.activeIconSource !== ""
+                source: root.activeIconSource
+                implicitWidth: 24
+                implicitHeight: 30
+                asynchronous: true
+                mipmap: true
             }
 
             Text {
@@ -137,7 +153,9 @@ Item {
                 font.family: "Comic Sans MS"
                 font.pixelSize: 18
                 color: "#cad3f5"
-                topPadding: 2.5
+                topPadding: 3
+                leftPadding: 5
+                rightPadding: 5
             }
 
         }
