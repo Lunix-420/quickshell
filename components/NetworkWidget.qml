@@ -98,7 +98,7 @@ Item {
     DisplayButton {
         id: upload
 
-        mainText: "---- kiB/s"
+        mainText: "--- kiB/s"
         labelText: "🔺"
         onRequestShowPopover: {
             root.requestShowPopover();
@@ -113,7 +113,7 @@ Item {
     DisplayButton {
         id: download
 
-        mainText: "---- kiB/s"
+        mainText: "--- kiB/s"
         labelText: "🔻"
         onRequestShowPopover: {
             root.requestShowPopover();

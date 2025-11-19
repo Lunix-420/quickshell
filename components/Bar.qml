@@ -116,7 +116,7 @@ PanelWindow {
         DisplayButton {
             id: calendar
 
-            mainText: Qt.formatDate(new Date(), "dddd, MMMM dd")
+            mainText: Qt.formatDate(new Date(), "ddd, MMM dd")
             labelText: "🗓️"
             anchors.right: clock.left
             onRequestShowPopover: {

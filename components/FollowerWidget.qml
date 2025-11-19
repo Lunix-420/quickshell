@@ -20,49 +20,84 @@ Item {
     signal requestShowPopover()
 
     function updateActiveWindowInfo() {
+        console.log("===========================================");
         const activeToplevel = getActiveToplevel();
         root.activeTitle = getTitle(activeToplevel);
         root.className = getClassName(activeToplevel);
+        root.fallBackEmoji = getFallbackEmoji();
         imageSource = getAppIcon(root.className);
-        console.log("===========================================")
-        console.log("Active Title: " + root.activeTitle)
-        console.log("Class Name: " + root.className)
-        console.log("Image Source: " + imageSource)
+        // Retry loading icon if not found
+        // This is needed because the class may load later then the toplevel change event
+        if (className === "")
+            retryIconLoadingTimer.running = true;
+
+        console.log("Active Title: " + root.activeTitle);
+        console.log("Class Name: " + root.className);
+        console.log("Image Source: " + imageSource);
+    }
+
+    function getFallbackEmoji() {
+        if (root.className.toLowerCase().includes("steam"))
+            return "🎮";
+
+        return "🌀";
     }
 
     function getClassName(activeToplevel) {
-        const ipcClass = activeToplevel?.lastIpcObject?.class ?? "no ipc object";
-        if (ipcClass !== "no ipc object") {
-            return ipcClass;
-        }
-        // Todo: find a class name via other means if no ipc object is available
+        // Prefer the IPC-provided class if available
+        if (activeToplevel.lastIpcObject && activeToplevel.lastIpcObject.class)
+            return activeToplevel.lastIpcObject.class;
+
+        // Fallback to Wayland appId
+        console.log("No IPC class found, falling back to appId");
+        if (activeToplevel.wayland && activeToplevel.wayland.appId)
+            return activeToplevel.wayland.appId;
+
+        // Fallback to XWayland class
+        console.log("No appId found, falling back to XWayland class");
+        if (activeToplevel["class"])
+            return activeToplevel["class"];
+
+        // Houston, we have a problem
+        console.error("No class name found for active toplevel, returning empty string");
+        return "";
     }
 
     function getTitle(activeToplevel) {
-        if (!activeToplevel || !activeToplevel.title) {
+        if (!activeToplevel || !activeToplevel.title)
             return "Unnamed Window";
-        }
 
         const rawTitle = String(activeToplevel.title);
         const maxChars = Math.max(0, root.maxCharacters);
-        if (rawTitle.length <= maxChars) {
+        if (rawTitle.length <= maxChars)
             return rawTitle;
-        }
 
         const truncationLength = Math.max(0, maxChars - 3);
         return rawTitle.slice(0, truncationLength) + "...";
     }
 
-    function getAppIcon(name: string, fallback: string): string {
-        const icon = DesktopEntries.heuristicLookup(name)?.icon;
-        if (fallback !== "undefined")
-            return Quickshell.iconPath(icon, fallback);
+    function getAppIcon() {
+        if (!root.className || root.className === "")
+            return "";
+
+        const lookup = DesktopEntries.heuristicLookup(root.className);
+        if (!lookup) {
+            console.error("No desktop entry found for " + root.className);
+            return "";
+        }
+        const icon = lookup.icon;
+        if (!icon) {
+            console.error("No icon found in desktop entry for " + root.className);
+            return "";
+        }
         return Quickshell.iconPath(icon);
     }
 
     function getActiveToplevel() {
         const activeToplevel = Hyprland.activeToplevel;
-        console.error("No active toplevel found");
+        if (!activeToplevel)
+            console.error("No active toplevel found");
+
         return activeToplevel;
     }
 
@@ -76,6 +111,16 @@ Item {
         }
 
         target: Hyprland
+    }
+
+    Timer {
+        id: retryIconLoadingTimer
+
+        interval: 100
+        running: false
+        onTriggered: {
+            root.updateActiveWindowInfo();
+        }
     }
 
     RectangularShadow {
@@ -120,7 +165,7 @@ Item {
             Text {
                 id: fallbackEmoji
 
-                visible: imageSource === ""   
+                visible: imageSource === ""
                 text: root.fallBackEmoji
                 font.family: "ComicShannsMono Nerd Font Mono"
                 font.pixelSize: 22
@@ -135,7 +180,7 @@ Item {
                 visible: imageSource !== ""
                 source: imageSource
                 implicitWidth: 24
-                implicitHeight: 29
+                implicitHeight: 32
                 asynchronous: true
                 mipmap: true
             }
@@ -148,7 +193,7 @@ Item {
                 font.pixelSize: 18
                 color: "#cad3f5"
                 topPadding: 3
-                leftPadding: 5
+                leftPadding: 3
                 rightPadding: 5
             }
 

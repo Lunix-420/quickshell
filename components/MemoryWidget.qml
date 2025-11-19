@@ -42,7 +42,7 @@ Item {
     DisplayButton {
         id: memory
 
-        mainText: "--.--GB"
+        mainText: "--.-GB"
         labelText: "💾"
         onRequestShowPopover: {
             root.requestShowPopover();
