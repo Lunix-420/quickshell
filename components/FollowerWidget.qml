@@ -19,8 +19,6 @@ Item {
     signal requestShowPopover()
 
     function updateActiveWindowInfo() {
-        console.log("===========================================");
-        console.log("Screen:" + root.screen.name);
         const activeToplevel = getActiveToplevel();
         root.activeTitle = getTitle(activeToplevel);
         root.className = getClassName(activeToplevel);
@@ -31,9 +29,6 @@ Item {
         if (className === "")
             retryIconLoadingTimer.running = true;
 
-        console.log("Active Title: " + root.activeTitle);
-        console.log("Class Name: " + root.className);
-        console.log("Image Source: " + imageSource);
     }
 
     function getFallbackEmoji() {
@@ -49,12 +44,10 @@ Item {
             return activeToplevel.lastIpcObject.class;
 
         // Fallback to Wayland appId
-        console.log("No IPC class found, falling back to appId");
         if (activeToplevel.wayland && activeToplevel.wayland.appId)
             return activeToplevel.wayland.appId;
 
         // Fallback to XWayland class
-        console.log("No appId found, falling back to XWayland class");
         if (activeToplevel["class"])
             return activeToplevel["class"];
 

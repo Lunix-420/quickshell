@@ -10,50 +10,79 @@ import Quickshell.Widgets
 Item {
     id: root
 
+    function getAppIcon(className) {
+        if (!className || className === "")
+            return "";
+
+        const lookup = DesktopEntries.heuristicLookup(className);
+        if (!lookup) {
+            console.error("No desktop entry found for " + className);
+            return "";
+        }
+        const icon = lookup.icon;
+        if (!icon) {
+            console.error("No icon found in desktop entry for " + className);
+            return "";
+        }
+        return Quickshell.iconPath(icon);
+    }
+
+    function getTrayIcon(modelData) {
+        const icon = modelData.icon;
+        const hasPath = icon.indexOf("?path=") !== -1;
+        if (!hasPath)
+            return icon;
+
+        console.error("Tray icon:", icon + "has ?path=, attempting to resolve");
+        const className = modelData.title;
+        const lookupIcon = getAppIcon(className);
+        console.log("Resolved tray icon for " + className + ": " + lookupIcon);
+        return lookupIcon;
+    }
+
     implicitHeight: 55
     implicitWidth: trayRepeater.width
 
     Rectangle {
         anchors.fill: parent
-        color: '#340022ff'
-    }
+        color: "#363A4F"
+        radius: 18
+        anchors.topMargin: 8.5
+        anchors.rightMargin: 4
+        anchors.leftMargin: 4
+        anchors.bottomMargin: 10.5
 
-    Row {
-        spacing: 0
+        Row {
+            leftPadding: 10
+            spacing: 6
 
-        Repeater {
-            id: trayRepeater
+            Repeater {
+                id: trayRepeater
 
-            model: SystemTray.items
-            implicitWidth: 44 * count
+                model: SystemTray.items
+                implicitWidth: 44 * count
 
-            Item {
-                implicitHeight: 55
-                implicitWidth: 44
+                delegate: Item {
+                    implicitHeight: 37
+                    implicitWidth: 25
 
-                Rectangle {
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: 32
-                    height: 32
-                    color: '#1bff0000'
-                }
-
-                IconImage {
-                    source: model.icon
-                    anchors.fill: parent
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        model.activate();
+                    IconImage {
+                        source: getTrayIcon(modelData)
+                        anchors.fill: parent
                     }
-                    onPressed: {
-                        if (model.hasMenu)
-                            model.display(parent, 0, parent.height);
 
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            modelData.activate();
+                        }
+                        onPressed: {
+                            if (modelData.hasMenu)
+                                modelData.display(parent, 0, parent.height);
+
+                        }
                     }
+
                 }
 
             }
