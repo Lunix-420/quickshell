@@ -7,20 +7,20 @@ import Quickshell.Io
 import Quickshell.Widgets
 
 Item {
-    // Force no icon so fallback emoji shows
-
     id: root
 
     property string activeTitle: ""
     property string className: ""
     property string imageSource: ""
-    property int maxCharacters: 60
     property string fallBackEmoji: "🌀"
+    property int maxCharacters: root.screen.name === "DP-1" ? 140 : 57
+    required property var screen
 
     signal requestShowPopover()
 
     function updateActiveWindowInfo() {
         console.log("===========================================");
+        console.log("Screen:" + root.screen.name);
         const activeToplevel = getActiveToplevel();
         root.activeTitle = getTitle(activeToplevel);
         root.className = getClassName(activeToplevel);
@@ -111,6 +111,17 @@ Item {
         }
 
         target: Hyprland
+    }
+
+    Timer {
+        id: sanityTimer
+
+        interval: 1000
+        running: true
+        repeat: true
+        onTriggered: {
+            root.updateActiveWindowInfo();
+        }
     }
 
     Timer {

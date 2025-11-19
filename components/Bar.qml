@@ -68,6 +68,30 @@ PanelWindow {
             anchors.left: parent.left
         }
 
+        // Workspace Buttons
+        Workspaces {
+            id: workspacesBar
+
+            anchors {
+                left: launcherBtn.right
+                verticalCenter: parent.verticalCenter
+                leftMargin: 10
+            }
+
+        }
+
+        //  Follower
+        FollowerWidget {
+            id: followerWidget
+
+            screen: root.screen
+
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+            }
+
+        }
+
         // Logout Button
         SquareButton {
             id: logoutBtn
@@ -76,16 +100,6 @@ PanelWindow {
             btnColor: "#ed8796"
             scriptPath: "~/.config/hypr/scripts/wlogout.sh"
             anchors.right: parent.right
-        }
-
-        // Firefox Title Placeholder
-        FollowerWidget {
-            id: followerWidget
-
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-            }
-
         }
 
         // Time Display

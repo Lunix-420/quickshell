@@ -39,7 +39,7 @@ Item {
             topMargin: 8.5
             rightMargin: 4
             leftMargin: 4
-            bottomMargin: 11
+            bottomMargin: 10.5
         }
 
         background: Rectangle {
