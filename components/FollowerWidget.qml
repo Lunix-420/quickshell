@@ -11,70 +11,60 @@ Item {
 
     id: root
 
-    property string activeTitle: "No Active Window"
-    property string activeIconSource: ""
+    property string activeTitle: ""
+    property string className: ""
+    property string imageSource: ""
     property int maxCharacters: 60
     property string fallBackEmoji: "🌀"
 
     signal requestShowPopover()
 
     function updateActiveWindowInfo() {
-        const activeToplevel = Hyprland.activeToplevel;
-        if (!activeToplevel) {
-            root.activeTitle = "No Active Window";
-            root.activeIconSource = "";
-            return ;
-        }
-        const clampedTitle = activeToplevel.title.length > root.maxCharacters ? activeToplevel.title.slice(0, root.maxCharacters - 3) + "..." : activeToplevel.title;
-        root.activeTitle = clampedTitle ?? "Unnamed Window";
-        const iconPath = root.resolveIconPath(activeToplevel);
-        root.activeIconSource = iconPath;
+        const activeToplevel = getActiveToplevel();
+        root.activeTitle = getTitle(activeToplevel);
+        root.className = getClassName(activeToplevel);
+        imageSource = getAppIcon(root.className);
+        console.log("===========================================")
+        console.log("Active Title: " + root.activeTitle)
+        console.log("Class Name: " + root.className)
+        console.log("Image Source: " + imageSource)
     }
 
-    function resolveIconPath(toplevel) {
-        if (!toplevel)
-            return "";
+    function getClassName(activeToplevel) {
+        return activeToplevel?.lastIpcObject.class ?? "", "no ipc object";
+    }
 
-        // Use wayland appId if available, otherwise fallback to XWayland class
-        var appId = "";
-        if (toplevel && toplevel.wayland && toplevel.wayland.appId)
-            appId = toplevel.wayland.appId;
-        else if (toplevel && toplevel["class"])
-            appId = toplevel["class"];
-        if (appId === "")
-            root.fallBackEmoji = "❓";
-
-        appId = appId.toLowerCase();
-        // If this is a Steam game and we can't resolve the icon, fallback to emoji
-        if (appId.startsWith("steam_app_")) {
-            root.fallBackEmoji = "🕹️";
-            return "";
+    function getTitle(activeToplevel) {
+        if (!activeToplevel || !activeToplevel.title) {
+            return "Unnamed Window";
         }
-        // Normal lookup
-        let directIcon = Quickshell.iconPath(appId);
-        if (directIcon && directIcon !== "")
-            return directIcon;
 
-        // Symbolic fallback
-        let symbolicIcon = Quickshell.iconPath(`${appId}-symbolic`);
-        if (symbolicIcon && symbolicIcon !== "")
-            return symbolicIcon;
+        const rawTitle = String(activeToplevel.title);
+        const maxChars = Math.max(0, root.maxCharacters);
+        if (rawTitle.length <= maxChars) {
+            return rawTitle;
+        }
 
-        // Nothing found → fallback emoji will display automatically
-        root.fallBackEmoji = "🌀";
-        return "";
+        const truncationLength = Math.max(0, maxChars - 3);
+        return rawTitle.slice(0, truncationLength) + "...";
+    }
+
+    function getAppIcon(name: string, fallback: string): string {
+        const icon = DesktopEntries.heuristicLookup(name)?.icon;
+        if (fallback !== "undefined")
+            return Quickshell.iconPath(icon, fallback);
+        return Quickshell.iconPath(icon);
+    }
+
+    function getActiveToplevel() {
+        const activeToplevel = Hyprland.activeToplevel;
+        console.error("No active toplevel found");
+        return activeToplevel;
     }
 
     implicitWidth: button.implicitWidth + 16
     implicitHeight: 55
     Component.onCompleted: root.updateActiveWindowInfo()
-
-    Timer {
-        interval: 1000
-        running: true
-        repeat: true
-        onTriggered: root.updateActiveWindowInfo()
-    }
 
     Connections {
         function onActiveToplevelChanged() {
@@ -126,7 +116,7 @@ Item {
             Text {
                 id: fallbackEmoji
 
-                visible: root.activeIconSource === ""
+                visible: imageSource === ""   
                 text: root.fallBackEmoji
                 font.family: "ComicShannsMono Nerd Font Mono"
                 font.pixelSize: 22
@@ -138,10 +128,10 @@ Item {
             IconImage {
                 id: toplevelIcon
 
-                visible: root.activeIconSource !== ""
-                source: root.activeIconSource
+                visible: imageSource !== ""
+                source: imageSource
                 implicitWidth: 24
-                implicitHeight: 30
+                implicitHeight: 29
                 asynchronous: true
                 mipmap: true
             }
