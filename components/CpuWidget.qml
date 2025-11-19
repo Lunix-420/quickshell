@@ -57,7 +57,7 @@ Item {
         id: cpu
 
         mainText: "--%|--°C"
-        labelText: "🧠"
+        labelText: "🖥️"
         onRequestShowPopover: {
             root.requestShowPopover();
         }

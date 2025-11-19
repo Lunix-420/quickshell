@@ -26,7 +26,7 @@ Item {
         id: gpu
 
         mainText: "--%|--°C"
-        labelText: "🖥️"
+        labelText: "🕹️"
         onRequestShowPopover: {
             root.requestShowPopover();
         }

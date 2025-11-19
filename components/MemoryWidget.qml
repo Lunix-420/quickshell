@@ -43,7 +43,7 @@ Item {
         id: memory
 
         mainText: "--.-GB"
-        labelText: "💾"
+        labelText: "🧠"
         onRequestShowPopover: {
             root.requestShowPopover();
         }
