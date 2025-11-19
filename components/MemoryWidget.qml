@@ -31,7 +31,7 @@ Item {
     }
 
     function updateMainText() {
-        const usageInGb = (memoryUsage / 1024 ** 2).toFixed(2);
+        const usageInGb = (memoryUsage / 1024 ** 2).toFixed(1);
         const paddedUsage = usageInGb < 10 ? " " + usageInGb : usageInGb;
         memory.mainText = (paddedUsage) + "GB";
     }

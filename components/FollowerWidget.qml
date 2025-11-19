@@ -1,21 +1,50 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
+import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Io
+import Quickshell.Widgets
 
 Item {
     id: root
 
     signal requestShowPopover()
+    property string activeTitle: "No Active Window"
+    property string activeIconSource: ""
 
-    function getActiveWindowTitle() {
+    function updateActiveWindowInfo() {
         const activeToplevel = Hyprland.activeToplevel;
-        console.log("Active Toplevel:", activeToplevel);
-        if (activeToplevel === null || activeToplevel === undefined)
-            return "No Active Window";
 
-        return activeToplevel.title;
+        if (!activeToplevel) {
+            root.activeTitle = "No Active Window";
+            root.activeIconSource = "";
+            return;
+        }
+
+        root.activeTitle = activeToplevel.title ?? "Unnamed Window";
+
+        const iconPath = root.resolveIconPath(activeToplevel);
+        root.activeIconSource = iconPath;
+    }
+
+    function resolveIconPath(toplevel) {
+        if (!toplevel)
+            return "";
+
+        const appId = toplevel.wayland?.appId ?? "";
+        if (appId === "")
+            return "";
+
+        const directIcon = Quickshell.iconPath(appId);
+        if (directIcon && directIcon !== "")
+            return directIcon;
+
+        const symbolicIcon = Quickshell.iconPath(`${appId}-symbolic`);
+        if (symbolicIcon && symbolicIcon !== "")
+            return symbolicIcon;
+
+        return "";
     }
 
     implicitWidth: button.implicitWidth + 16
@@ -25,10 +54,18 @@ Item {
         interval: 1000
         running: true
         repeat: true
-        onTriggered: {
-            mainLabel.text = root.getActiveWindowTitle();
+        onTriggered: root.updateActiveWindowInfo()
+    }
+
+    Connections {
+        target: Hyprland
+
+        function onActiveToplevelChanged() {
+            root.updateActiveWindowInfo();
         }
     }
+
+    Component.onCompleted: root.updateActiveWindowInfo()
 
     RectangularShadow {
         anchors.fill: button
@@ -68,9 +105,20 @@ Item {
             anchors.centerIn: parent
             spacing: 4
 
-            Text {
-                id: emojiLabel
+            IconImage {
+                id: toplevelIcon
 
+                visible: source !== ""
+                source: root.activeIconSource
+                implicitSize: 24
+                asynchronous: true
+                mipmap: true
+            }
+
+            Text {
+                id: fallbackEmoji
+
+                visible: root.activeIconSource === ""
                 text: "📣"
                 font.family: "ComicShannsMono Nerd Font Mono"
                 font.pixelSize: 22
@@ -82,7 +130,7 @@ Item {
             Text {
                 id: mainLabel
 
-                text: "Firefox Developer Edition"
+                text: root.activeTitle
                 font.family: "Comic Sans MS"
                 font.pixelSize: 18
                 color: "#cad3f5"

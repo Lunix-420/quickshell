@@ -79,7 +79,7 @@ Item {
 
     // Converts speed from bytes to the best unit (KB/s, MB/s, etc.)
     function formatSpeed(bytesPerSecond) {
-        const units = ["kiB/s", "MiB/s", "GiB/s", "TiB/s"];
+        const units = ["kB/s", "MB/s", "GB/s", "TB/s"];
         let speed = bytesPerSecond / 1024;
         let unitIndex = 0;
         while (speed >= 100 && unitIndex < units.length - 1) {
