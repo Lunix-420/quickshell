@@ -80,6 +80,17 @@ PanelWindow {
 
         }
 
+        Tray {
+            id: systemTray
+
+            anchors {
+                left: workspacesBar.right
+                verticalCenter: parent.verticalCenter
+                rightMargin: -10
+            }
+
+        }
+
         //  Follower
         FollowerWidget {
             id: followerWidget
