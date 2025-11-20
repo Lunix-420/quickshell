@@ -10,7 +10,7 @@ PanelWindow {
     signal requestShowPopover(var screen)
 
     implicitHeight: 65
-    color: Config.Colors.blue
+    color: Config.Colors.transparent
 
     anchors {
         top: true
