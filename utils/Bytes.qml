@@ -27,4 +27,16 @@ Singleton {
         return gibibytes * (1024 ** 3);
     }
 
+    function normalize(value) {
+        const units = ["B", "kB", "MB", "GB", "TB"];
+        let unitIndex = 0;
+        let speed = value;
+        while (speed >= 1000 && unitIndex < units.length - 1) {
+            speed /= 1024;
+            unitIndex++;
+        }
+        const unit = units[unitIndex];
+        return [speed, unit];
+    }
+
 }
