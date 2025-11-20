@@ -142,7 +142,7 @@ PanelWindow {
         DisplayButton {
             id: calendar
 
-            mainText: Qt.formatDate(new Date(), "ddd, MMM dd")
+            mainText: Qt.formatDate(new Date(), "dddd, MMMM dd")
             labelText: "🗓️"
             anchors.right: clock.left
             onRequestShowPopover: {
@@ -156,7 +156,7 @@ PanelWindow {
                 running: true
                 repeat: true
                 onTriggered: {
-                    calendar.mainText = Qt.formatDate(new Date(), "ddd, MMM dd");
+                    calendar.mainText = Qt.formatDate(new Date(), "dddd, MMMM dd");
                 }
             }
 

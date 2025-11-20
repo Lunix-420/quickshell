@@ -58,10 +58,10 @@ Item {
 
                 text: labelText
                 font.family: "ComicShannsMono Nerd Font Mono"
-                font.pixelSize: 22
+                font.pixelSize: 20
                 color: "#cad3f5"
                 leftPadding: 5
-                topPadding: 4
+                topPadding: 5
             }
 
             Text {
@@ -69,9 +69,9 @@ Item {
 
                 text: mainText
                 font.family: "ComicShannsMono Nerd Font Mono"
-                font.pixelSize: 17
+                font.pixelSize: 16
                 color: "#cad3f5"
-                topPadding: 6
+                topPadding: 7
             }
 
         }

@@ -13,13 +13,12 @@ Item {
     property string className: ""
     property string imageSource: ""
     property string fallBackEmoji: "🌀"
-    property int maxCharacters: root.screen.name === "DP-1" ? 140 : 57
+    property int maxCharacters: root.screen.name === "DP-1" ? 140 : 55
     required property var screen
 
     signal requestShowPopover()
 
     function updateActiveWindowInfo() {
-        Hyprland.refreshToplevels();
         const activeToplevel = getActiveToplevel();
         root.visible = true;
         root.activeTitle = getTitle(activeToplevel);
@@ -62,7 +61,11 @@ Item {
         if (!activeToplevel || !activeToplevel.title)
             return "Unnamed Window";
 
-        const rawTitle = String(activeToplevel.title);
+        var rawTitle = String(activeToplevel.title);
+        // If the string contains Visual Studio code, remove the ● character
+        if (rawTitle.includes("Visual Studio Code") && rawTitle.includes("●"))
+            rawTitle = rawTitle.replace("●", "").trim();
+
         const maxChars = Math.max(0, root.maxCharacters);
         if (rawTitle.length <= maxChars)
             return rawTitle;
@@ -91,7 +94,6 @@ Item {
             return null;
 
         const activeToplevel = Hyprland.activeToplevel;
-        console.log("Active toplevel:", activeToplevel);
         return activeToplevel;
     }
 
@@ -104,7 +106,14 @@ Item {
 
     Connections {
         function onActiveToplevelChanged() {
+            console.log("Active toplevel changed");
             root.updateActiveWindowInfo();
+        }
+
+        function onRawEvent(event) {
+            if (event.name === "closewindow")
+                root.visible = false;
+
         }
 
         target: Hyprland
@@ -187,9 +196,9 @@ Item {
 
                 text: root.activeTitle
                 font.family: "Comic Sans MS"
-                font.pixelSize: 18
+                font.pixelSize: 16
                 color: "#cad3f5"
-                topPadding: 3
+                topPadding: 4
                 leftPadding: 3
                 rightPadding: 5
             }
