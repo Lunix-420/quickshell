@@ -58,7 +58,7 @@ Singleton {
     }
 
     // Parses the output `sensors` and returns temperature values
-    function parseSensorsOutput(output) {
+    function parseSensorsOutput(text) {
         const lines = text.split("\n");
         for (const line of lines) {
             if (!line.includes("Tdie"))
@@ -69,6 +69,7 @@ Singleton {
                 return parseFloat(v, 10);
             });
             const [current, high] = floats;
+            return [current, high];
         }
     }
 

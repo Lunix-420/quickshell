@@ -8,18 +8,14 @@ import Quickshell.Io
 Item {
     id: root
 
-    // Exposed properties
     property string mainText: "-"
     property string labelText: "-"
 
-    // Emits a request to show a popover when the widget is clicked
     signal requestShowPopover()
 
-    // Dimensions
     implicitWidth: button.implicitWidth + 16
     implicitHeight: 55
 
-    // Shadow effect
     RectangularShadow {
         anchors.fill: button
         blur: 5
@@ -29,7 +25,6 @@ Item {
         cached: true
     }
 
-    // Main display element
     Button {
         id: button
 
@@ -59,7 +54,6 @@ Item {
             anchors.centerIn: parent
             spacing: 4
 
-            // Icon on the left side of the widget
             Text {
                 id: emojiLabel
 
@@ -71,7 +65,6 @@ Item {
                 topPadding: 5
             }
 
-            // Main text on the right side of the widget
             Text {
                 id: mainLabel
 

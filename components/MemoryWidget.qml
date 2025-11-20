@@ -31,9 +31,4 @@ Item {
         }
     }
 
-    Connections {
-        target: MemoryStats
-        onMemoryUsageChanged: updateMainText()
-    }
-
 }

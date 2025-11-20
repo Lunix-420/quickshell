@@ -4,6 +4,7 @@ import QtQuick.Controls
 import QtQuick.Effects
 import Quickshell.Io
 
+// Big square button that calls a script on click
 Item {
     id: root
 
