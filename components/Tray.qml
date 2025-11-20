@@ -32,6 +32,12 @@ Item {
     implicitHeight: 55
     implicitWidth: trayRow.width + 38
 
+    PanelWindow {
+        id: panelWindow
+
+        visible: false
+    }
+
     RectangularShadow {
         anchors.fill: trayBar
         blur: 5
@@ -57,16 +63,14 @@ Item {
 
             spacing: 8
             anchors.horizontalCenter: parent.horizontalCenter
-            LayoutMirroring.enabled: true
-            LayoutMirroring.childrenInherit: true
 
             Repeater {
-                id: trayRepeater
-
                 anchors.fill: parent
                 model: SystemTray.items
 
                 delegate: Item {
+                    id: trayItem
+
                     implicitHeight: 39
                     implicitWidth: 24
 
@@ -77,12 +81,17 @@ Item {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: {
-                            modelData.activate();
-                        }
-                        onPressed: {
-                            if (modelData.hasMenu)
-                                modelData.display(parent, 0, parent.height);
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
+                        onClicked: (mouse) => {
+                            if (mouse.button == Qt.RightButton) {
+                                console.log("Right click on tray item:", modelData.id);
+                                const baseX = 615;
+                                const offsetX = index * 32;
+                                const totalX = baseX + offsetX;
+                                modelData.display(panelWindow, totalX, 25);
+                            }
+                            if (mouse.button == Qt.LeftButton)
+                                modelData.activate();
 
                         }
                     }
