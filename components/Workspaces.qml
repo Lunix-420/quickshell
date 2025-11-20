@@ -1,4 +1,4 @@
-import "../config" as Config
+import "../config"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
@@ -50,12 +50,12 @@ Item {
                     radius: 18
                     color: {
                         if (modelData.urgent)
-                            return Config.Colors.peach;
+                            return Colors.peach;
 
                         if (modelData.active)
-                            return Config.Colors.text;
+                            return Colors.text;
 
-                        return Config.Colors.shadow;
+                        return Colors.shadow;
                     }
                     cached: true
                 }
@@ -83,15 +83,15 @@ Item {
 
                         property color resolvedColor: {
                             if (modelData.urgent)
-                                return Config.Colors.peach;
+                                return Colors.peach;
 
                             if (modelData.active)
-                                return Config.Colors.text;
+                                return Colors.text;
 
                             if (workspaceButton.hovered)
-                                return Config.Colors.surface2;
+                                return Colors.surface2;
 
-                            return Config.Colors.surface;
+                            return Colors.surface;
                         }
 
                         color: resolvedColor
@@ -105,7 +105,7 @@ Item {
                         font.family: "ComicShannsMono Nerd Font Mono"
                         font.weight: Font.Normal
                         font.pixelSize: 18
-                        color: (modelData.active || modelData.urgent) ? Config.Colors.textDark : Config.Colors.text
+                        color: (modelData.active || modelData.urgent) ? Colors.textDark : Colors.text
                         topPadding: 1.5
                         leftPadding: 5
                     }

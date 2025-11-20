@@ -1,4 +1,4 @@
-import "../config" as Config
+import "../config"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
@@ -10,7 +10,7 @@ Item {
     property string btnText: "-"
     property string scriptPath: ""
     property string fontSize: "42"
-    property color btnColor: Config.Colors.text
+    property color btnColor: Colors.text
 
     implicitWidth: 61
     implicitHeight: 55
@@ -20,7 +20,7 @@ Item {
         blur: 5
         spread: 1
         radius: 5
-        color: button.hovered ? btnColor : Config.Colors.shadow
+        color: button.hovered ? btnColor : Colors.shadow
         cached: true
     }
 
@@ -52,7 +52,7 @@ Item {
         contentItem: Text {
             text: button.text
             font: button.font
-            color: button.hovered ? Config.Colors.textDark : Config.Colors.text
+            color: button.hovered ? Colors.textDark : Colors.text
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             topPadding: 2
@@ -61,7 +61,7 @@ Item {
         background: Rectangle {
             id: backgroundRect
 
-            color: button.hovered ? btnColor : Config.Colors.surface0
+            color: button.hovered ? btnColor : Colors.surface0
             radius: 7
         }
 

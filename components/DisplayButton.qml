@@ -1,30 +1,35 @@
-import "../config" as Config
+import "../config"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
 import Quickshell.Io
 
+// Top bar display widget base component
 Item {
     id: root
 
-    property string scriptPath: ""
+    // Exposed properties
     property string mainText: "-"
     property string labelText: "-"
 
+    // Emits a request to show a popover when the widget is clicked
     signal requestShowPopover()
 
+    // Dimensions
     implicitWidth: button.implicitWidth + 16
     implicitHeight: 55
 
+    // Shadow effect
     RectangularShadow {
         anchors.fill: button
         blur: 5
         spread: 1
         radius: 20
-        color: Config.Colors.shadow
+        color: Colors.shadow
         cached: true
     }
 
+    // Main display element
     Button {
         id: button
 
@@ -46,7 +51,7 @@ Item {
         background: Rectangle {
             id: backgroundRect
 
-            color: Config.Colors.surface0
+            color: Colors.surface0
             radius: 20
         }
 
@@ -54,24 +59,26 @@ Item {
             anchors.centerIn: parent
             spacing: 4
 
+            // Icon on the left side of the widget
             Text {
                 id: emojiLabel
 
                 text: labelText
                 font.family: "ComicShannsMono Nerd Font Mono"
                 font.pixelSize: 20
-                color: Config.Colors.text
+                color: Colors.text
                 leftPadding: 5
                 topPadding: 5
             }
 
+            // Main text on the right side of the widget
             Text {
                 id: mainLabel
 
                 text: mainText
                 font.family: "ComicShannsMono Nerd Font Mono"
                 font.pixelSize: 16
-                color: Config.Colors.text
+                color: Colors.text
                 topPadding: 7
             }
 

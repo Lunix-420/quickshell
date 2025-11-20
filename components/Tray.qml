@@ -1,4 +1,4 @@
-import "../config" as Config
+import "../config"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
@@ -44,7 +44,7 @@ Item {
         blur: 5
         spread: 1
         radius: 20
-        color: Config.Colors.shadow
+        color: Colors.shadow
         cached: true
     }
 
@@ -52,7 +52,7 @@ Item {
         id: trayBar
 
         anchors.fill: parent
-        color: Config.Colors.surface
+        color: Colors.surface
         radius: 18
         anchors.topMargin: 8.5
         anchors.rightMargin: 4

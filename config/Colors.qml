@@ -1,7 +1,9 @@
-import Quickshell
 pragma Singleton
+import Quickshell
 
 Singleton {
+    id: root
+
     // Base colors
     readonly property string transparent: "#00000000"
     readonly property string overlayDim: "#6a000000"

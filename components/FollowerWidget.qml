@@ -1,4 +1,4 @@
-import "../config" as Config
+import "../config"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
@@ -135,7 +135,7 @@ Item {
         blur: 5
         spread: 1
         radius: 20
-        color: Config.Colors.shadow
+        color: Colors.shadow
         cached: true
     }
 
@@ -160,7 +160,7 @@ Item {
         background: Rectangle {
             id: backgroundRect
 
-            color: Config.Colors.surface0
+            color: Colors.surface0
             radius: 20
         }
 
@@ -176,7 +176,7 @@ Item {
                 text: root.fallBackEmoji
                 font.family: "ComicShannsMono Nerd Font Mono"
                 font.pixelSize: 22
-                color: Config.Colors.text
+                color: Colors.text
                 leftPadding: 4
                 topPadding: 4
             }
@@ -198,7 +198,7 @@ Item {
                 text: root.activeTitle
                 font.family: "Comic Sans MS"
                 font.pixelSize: 16
-                color: Config.Colors.text
+                color: Colors.text
                 topPadding: 4
                 leftPadding: 3
                 rightPadding: 5
