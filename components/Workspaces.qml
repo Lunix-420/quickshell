@@ -100,8 +100,11 @@ Item {
 
     // Update workspaces when Hyprland events come in
     Connections {
+        function onRawEvent() {
+            Hyprland.refreshWorkspaces();
+        }
+
         target: Hyprland
-        onRawEvent: Hyprland.refreshWorkspaces()
     }
 
 }

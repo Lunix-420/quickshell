@@ -20,6 +20,11 @@ Item {
 
     function updateActiveWindowInfo() {
         const activeToplevel = getActiveToplevel();
+        if (!activeToplevel) {
+            root.visible = false;
+            return ;
+        }
+        root.visible = true;
         root.activeTitle = getTitle(activeToplevel);
         root.className = getClassName(activeToplevel);
         root.fallBackEmoji = getFallbackEmoji();
@@ -74,23 +79,18 @@ Item {
             return "";
 
         const lookup = DesktopEntries.heuristicLookup(root.className);
-        if (!lookup) {
-            console.error("No desktop entry found for " + root.className);
+        if (!lookup)
             return "";
-        }
+
         const icon = lookup.icon;
-        if (!icon) {
-            console.error("No icon found in desktop entry for " + root.className);
+        if (!icon)
             return "";
-        }
+
         return Quickshell.iconPath(icon);
     }
 
     function getActiveToplevel() {
         const activeToplevel = Hyprland.activeToplevel;
-        if (!activeToplevel)
-            console.error("No active toplevel found");
-
         return activeToplevel;
     }
 
