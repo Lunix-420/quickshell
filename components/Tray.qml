@@ -10,40 +10,40 @@ import Quickshell.Widgets
 Item {
     id: root
 
-    function getAppIcon(className) {
-        if (!className || className === "")
-            return "";
-
-        const lookup = DesktopEntries.heuristicLookup(className);
-        if (!lookup) {
-            console.error("No desktop entry found for " + className);
-            return "";
-        }
-        const icon = lookup.icon;
-        if (!icon) {
-            console.error("No icon found in desktop entry for " + className);
-            return "";
-        }
-        return Quickshell.iconPath(icon);
-    }
-
     function getTrayIcon(modelData) {
-        const icon = modelData.icon;
-        const hasPath = icon.indexOf("?path=") !== -1;
-        if (!hasPath)
-            return icon;
+        const id = modelData.id;
+        let icon = modelData.icon;
+        // 1. Check manual overrides in iconSubs
+        const iconSubs = [];
+        for (const sub of iconSubs) {
+            if (sub.id === id)
+                return sub.image ? Qt.resolvedUrl(sub.image) : Quickshell.iconPath(sub.icon);
 
-        console.error("Tray icon:", icon + "has ?path=, attempting to resolve");
-        const className = modelData.title;
-        const lookupIcon = getAppIcon(className);
-        console.log("Resolved tray icon for " + className + ": " + lookupIcon);
-        return lookupIcon;
+        }
+        // 2. Handle ?path= icons
+        if (icon.includes("?path=")) {
+            const [name, path] = icon.split("?path=");
+            icon = Qt.resolvedUrl(`${path}/${name.slice(name.lastIndexOf("/") + 1)}`);
+        }
+        // 3. Return the processed icon
+        return icon;
     }
 
     implicitHeight: 55
-    implicitWidth: trayRepeater.width
+    implicitWidth: trayRow.width + 38
+
+    RectangularShadow {
+        anchors.fill: trayBar
+        blur: 5
+        spread: 1
+        radius: 20
+        color: '#000000'
+        cached: true
+    }
 
     Rectangle {
+        id: trayBar
+
         anchors.fill: parent
         color: "#363A4F"
         radius: 18
@@ -53,18 +53,22 @@ Item {
         anchors.bottomMargin: 10.5
 
         Row {
-            leftPadding: 10
-            spacing: 6
+            id: trayRow
+
+            spacing: 8
+            anchors.horizontalCenter: parent.horizontalCenter
+            LayoutMirroring.enabled: true
+            LayoutMirroring.childrenInherit: true
 
             Repeater {
                 id: trayRepeater
 
+                anchors.fill: parent
                 model: SystemTray.items
-                implicitWidth: 44 * count
 
                 delegate: Item {
-                    implicitHeight: 37
-                    implicitWidth: 25
+                    implicitHeight: 39
+                    implicitWidth: 24
 
                     IconImage {
                         source: getTrayIcon(modelData)
