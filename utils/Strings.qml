@@ -1,4 +1,4 @@
-// CpuStats.qml
+// Strings.qml
 pragma Singleton
 import Quickshell
 
