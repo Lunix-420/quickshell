@@ -11,6 +11,7 @@ Singleton {
     // Global CPU usage and temperature state
     readonly property real cpuUsage: _cpuUsage
     readonly property real cpuTemperature: _cpuTemperature
+    // Internal state
     property var _previousProcStats: parseProcStats()
     property real _cpuUsage: 0
     property real _cpuTemperature: 0
@@ -71,7 +72,7 @@ Singleton {
         }
     }
 
-    // Timer to periodically update CPU stats
+    // Polling timer
     Timer {
         interval: 1000
         running: true
