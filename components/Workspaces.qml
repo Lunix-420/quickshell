@@ -1,5 +1,4 @@
-// color:
-
+import "../config" as Config
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
@@ -49,7 +48,15 @@ Item {
                     blur: 5
                     spread: 1
                     radius: 18
-                    color: modelData.active ? "#cad3f5" : '#000000'
+                    color: {
+                        if (modelData.urgent)
+                            return Config.Colors.peach;
+
+                        if (modelData.active)
+                            return Config.Colors.text;
+
+                        return Config.Colors.shadow;
+                    }
                     cached: true
                 }
 
@@ -74,7 +81,20 @@ Item {
                     background: Rectangle {
                         id: backgroundRect
 
-                        color: (modelData.urgent) ? "#ed8796" : (modelData.active) ? "#cad3f5" : "#363A4F"
+                        property color resolvedColor: {
+                            if (modelData.urgent)
+                                return Config.Colors.peach;
+
+                            if (modelData.active)
+                                return Config.Colors.text;
+
+                            if (workspaceButton.hovered)
+                                return Config.Colors.surface2;
+
+                            return Config.Colors.surface;
+                        }
+
+                        color: resolvedColor
                         radius: 18
                     }
 
@@ -85,7 +105,7 @@ Item {
                         font.family: "ComicShannsMono Nerd Font Mono"
                         font.weight: Font.Normal
                         font.pixelSize: 18
-                        color: (modelData.active || modelData.urgent) ? "#181926" : "#cad3f5"
+                        color: (modelData.active || modelData.urgent) ? Config.Colors.textDark : Config.Colors.text
                         topPadding: 1.5
                         leftPadding: 5
                     }

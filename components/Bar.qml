@@ -1,3 +1,4 @@
+import "../config" as Config
 import QtQuick
 import QtQuick.Effects
 import Quickshell
@@ -9,7 +10,7 @@ PanelWindow {
     signal requestShowPopover(var screen)
 
     implicitHeight: 65
-    color: '#00000000'
+    color: Config.Colors.blue
 
     anchors {
         top: true
@@ -32,7 +33,7 @@ PanelWindow {
             blur: 10
             spread: 1
             radius: 5
-            color: '#000000'
+            color: Config.Colors.shadow
             cached: true
         }
 
@@ -40,14 +41,14 @@ PanelWindow {
             id: backgroundRect
 
             anchors.fill: parent
-            color: "#24273A"
+            color: Config.Colors.base
         }
 
         Rectangle {
             id: bottomBorder
 
             height: 2
-            color: '#363A4F'
+            color: Config.Colors.surface
 
             anchors {
                 left: parent.left
@@ -63,7 +64,7 @@ PanelWindow {
 
             btnText: "󰣇"
             fontSize: "52"
-            btnColor: "#8AADF4"
+            btnColor: Config.Colors.blue
             scriptPath: "~/.config/hypr/scripts/fuzzel.sh"
             anchors.left: parent.left
         }
@@ -108,7 +109,7 @@ PanelWindow {
             id: logoutBtn
 
             btnText: "󰤆"
-            btnColor: "#ed8796"
+            btnColor: Config.Colors.accentRed
             scriptPath: "~/.config/hypr/scripts/wlogout.sh"
             anchors.right: parent.right
         }

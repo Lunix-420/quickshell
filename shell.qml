@@ -1,4 +1,6 @@
 //@ pragma UseQApplication
+//@ pragma Env QSG_RENDER_LOOP=threaded
+
 import QtQuick
 import QtQuick.Controls
 import Quickshell
@@ -50,7 +52,7 @@ ShellRoot {
         exclusiveZone: 0
         implicitWidth: 400
         implicitHeight: 300
-        color: '#6a000000'
+        color: Theme.overlayDim
 
         anchors {
             top: true

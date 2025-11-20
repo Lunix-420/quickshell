@@ -1,3 +1,4 @@
+import "../config" as Config
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
@@ -9,22 +10,22 @@ Item {
     property string btnText: "-"
     property string scriptPath: ""
     property string fontSize: "42"
-    property string btnColor: "#cad3f5"
+    property color btnColor: Config.Colors.text
 
     implicitWidth: 61
     implicitHeight: 55
 
     RectangularShadow {
-        anchors.fill: powerBtn
+        anchors.fill: button
         blur: 5
         spread: 1
         radius: 5
-        color: powerBtn.hovered ? btnColor : '#000000'
+        color: button.hovered ? btnColor : Config.Colors.shadow
         cached: true
     }
 
     Button {
-        id: powerBtn
+        id: button
 
         font.family: "ComicShannsMono Nerd Font Mono"
         font.pixelSize: fontSize
@@ -49,9 +50,9 @@ Item {
         }
 
         contentItem: Text {
-            text: powerBtn.text
-            font: powerBtn.font
-            color: powerBtn.hovered ? "#181926" : "#cad3f5"
+            text: button.text
+            font: button.font
+            color: button.hovered ? Config.Colors.textDark : Config.Colors.text
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             topPadding: 2
@@ -60,7 +61,7 @@ Item {
         background: Rectangle {
             id: backgroundRect
 
-            color: powerBtn.hovered ? btnColor : "#363A4F"
+            color: button.hovered ? btnColor : Config.Colors.surface0
             radius: 7
         }
 

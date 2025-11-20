@@ -1,3 +1,4 @@
+import "../config" as Config
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
@@ -12,20 +13,20 @@ Item {
 
     signal requestShowPopover()
 
-    implicitWidth: powerBtn.implicitWidth + 16
+    implicitWidth: button.implicitWidth + 16
     implicitHeight: 55
 
     RectangularShadow {
-        anchors.fill: powerBtn
+        anchors.fill: button
         blur: 5
         spread: 1
         radius: 20
-        color: '#000000'
+        color: Config.Colors.shadow
         cached: true
     }
 
     Button {
-        id: powerBtn
+        id: button
 
         onClicked: {
             requestShowPopover();
@@ -45,7 +46,7 @@ Item {
         background: Rectangle {
             id: backgroundRect
 
-            color: "#363A4F"
+            color: Config.Colors.surface0
             radius: 20
         }
 
@@ -59,7 +60,7 @@ Item {
                 text: labelText
                 font.family: "ComicShannsMono Nerd Font Mono"
                 font.pixelSize: 20
-                color: "#cad3f5"
+                color: Config.Colors.text
                 leftPadding: 5
                 topPadding: 5
             }
@@ -70,7 +71,7 @@ Item {
                 text: mainText
                 font.family: "ComicShannsMono Nerd Font Mono"
                 font.pixelSize: 16
-                color: "#cad3f5"
+                color: Config.Colors.text
                 topPadding: 7
             }
 
