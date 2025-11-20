@@ -19,11 +19,8 @@ Item {
     signal requestShowPopover()
 
     function updateActiveWindowInfo() {
+        Hyprland.refreshToplevels();
         const activeToplevel = getActiveToplevel();
-        if (!activeToplevel) {
-            root.visible = false;
-            return ;
-        }
         root.visible = true;
         root.activeTitle = getTitle(activeToplevel);
         root.className = getClassName(activeToplevel);
@@ -90,13 +87,20 @@ Item {
     }
 
     function getActiveToplevel() {
+        if (!Hyprland)
+            return null;
+
         const activeToplevel = Hyprland.activeToplevel;
+        console.log("Active toplevel:", activeToplevel);
         return activeToplevel;
     }
 
     implicitWidth: button.implicitWidth + 16
     implicitHeight: 55
-    Component.onCompleted: root.updateActiveWindowInfo()
+    Component.onCompleted: {
+        Hyprland.refreshToplevels();
+        root.updateActiveWindowInfo();
+    }
 
     Connections {
         function onActiveToplevelChanged() {
@@ -104,17 +108,6 @@ Item {
         }
 
         target: Hyprland
-    }
-
-    Timer {
-        id: sanityTimer
-
-        interval: 1000
-        running: true
-        repeat: true
-        onTriggered: {
-            root.updateActiveWindowInfo();
-        }
     }
 
     Timer {
