@@ -4,6 +4,7 @@ import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Io
 import QtQuick
+import "../utils"
 
 // Service that provides information about the active toplevel (title, class, icon)
 Singleton {
@@ -33,23 +34,13 @@ Singleton {
         root._activeTitle = getTitle(activeToplevel);
         root._className = getClassName(activeToplevel);
         root._windowAddress = activeToplevel ? activeToplevel.address : "";
-        root._fallBackEmoji = getFallbackEmoji();
-        root._imageSource = getAppIcon(root._className);
+        root._fallBackEmoji = Icons.getFallbackEmoji(root._className);
+        root._imageSource = Icons.getAppIcon(root._className);
         // If class is empty the icon might load later; trigger the retry timer
         console.log("Class name is: " + root._className);
         if (root._className === "")
             retryIconLoadingTimer.running = true;
 
-    }
-
-    function getFallbackEmoji() {
-        if (!root._className)
-            return "🌀";
-
-        if (root._className.toLowerCase().includes("steam"))
-            return "🎮";
-
-        return "🌀";
     }
 
     function getClassName(activeToplevel) {
@@ -78,21 +69,6 @@ Singleton {
             rawTitle = rawTitle.replace("●", "").trim();
 
         return rawTitle;
-    }
-
-    function getAppIcon() {
-        if (!root._className || root._className === "")
-            return "";
-
-        var lookup = DesktopEntries.heuristicLookup(root._className);
-        if (!lookup)
-            return "";
-
-        var icon = lookup.icon;
-        if (!icon)
-            return "";
-
-        return Quickshell.iconPath(icon);
     }
 
     function getActiveToplevel() {
