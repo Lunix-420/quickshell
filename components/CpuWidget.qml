@@ -11,12 +11,16 @@ Item {
 
     signal requestShowPopover()
 
+    function formatStat(value, unit) {
+        const clamped = Math.min(99, Math.round(value));
+        const padded = Strings.leftPad(clamped, 2, " ");
+        return padded + unit;
+    }
+
     function formatText(rawCpuUsage, rawCpuTemperature) {
-        const cpuUsage = Math.min(99, Math.round(rawCpuUsage));
-        const cpuUsageString = Strings.leftPad(cpuUsage, 2, " ") + "%";
-        const cpuTemperature = Math.min(99, Math.round(rawCpuTemperature));
-        const cpuTemperatureString = Strings.leftPad(cpuTemperature, 2, " ") + "°C";
-        return `${cpuUsageString}|${cpuTemperatureString}`;
+        const usage = formatStat(rawCpuUsage, "%");
+        const temperature = formatStat(rawCpuTemperature, "°C");
+        return `${usage}|${temperature}`;
     }
 
     width: widget.implicitWidth
