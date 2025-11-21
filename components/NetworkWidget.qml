@@ -11,9 +11,8 @@ Item {
 
     signal requestShowPopover()
 
-    // Formats numeric bytes/sec into nicely rounded value + unit
     function formatSpeed(bytesPerSecond) {
-        const [speed, unit] = Bytes.normalize(bytesPerSecond);
+        const [speed, unit] = Bytes.normalize(bytesPerSecond, "kB", 100);
         const speedRounded = Strings.roundToLength(speed, 4);
         const speedString = Strings.leftPad(speedRounded, 4, " ");
         const unitString = Strings.leftPad(unit, 2, " ");

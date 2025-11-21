@@ -27,11 +27,22 @@ Singleton {
         return gibibytes * (1024 ** 3);
     }
 
-    function normalize(value) {
+    function normalize(value, minUnit = "B", threshold = 1000) {
         const units = ["B", "kB", "MB", "GB", "TB"];
+        // Find the starting index based on minUnit
+        const minUnitIndex = units.indexOf(minUnit);
+        if (minUnitIndex === -1)
+            throw new Error("Invalid minUnit: " + minUnit);
+
         let unitIndex = 0;
         let speed = value;
-        while (speed >= 1000 && unitIndex < units.length - 1) {
+        // First pass, reach minUnit
+        while (unitIndex < minUnitIndex) {
+            speed /= 1024;
+            unitIndex++;
+        }
+        // Second pass, reach appropriate unit
+        while (speed >= threshold && unitIndex < units.length - 1) {
             speed /= 1024;
             unitIndex++;
         }
