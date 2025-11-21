@@ -14,7 +14,6 @@ Singleton {
     readonly property string className: _className
     readonly property string imageSource: _imageSource
     readonly property string fallBackEmoji: _fallBackEmoji
-    // screen may be set by the widget so the service can adapt maxCharacters
     property var screen: null
     readonly property int maxCharacters: (screen && screen.name === "DP-1") ? 140 : 55
     // Internal state
