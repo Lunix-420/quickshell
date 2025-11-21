@@ -1,3 +1,4 @@
+// CpuWidget.qml
 import "../config"
 import "../services"
 import "../utils"

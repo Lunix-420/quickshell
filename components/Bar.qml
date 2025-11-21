@@ -1,10 +1,10 @@
+// Bar.qml
 import "../config"
 import QtQuick
 import QtQuick.Effects
 import Quickshell
 import Quickshell.Io
 
-// Top bar component
 PanelWindow {
     id: root
 

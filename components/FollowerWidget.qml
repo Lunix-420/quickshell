@@ -1,3 +1,4 @@
+// FollowerWidget.qml
 import "../config"
 import "../services"
 import QtQuick

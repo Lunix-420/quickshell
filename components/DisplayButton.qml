@@ -1,3 +1,4 @@
+// DisplayButton.qml
 import "../config"
 import QtQuick
 import QtQuick.Controls

@@ -1,3 +1,4 @@
+// Workspaces.qml
 import "../config"
 import QtQuick
 import QtQuick.Controls

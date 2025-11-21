@@ -1,3 +1,4 @@
+// GpuWidget.qml
 import "../config"
 import "../services"
 import "../utils"

@@ -1,3 +1,4 @@
+// Colors.qml
 pragma Singleton
 import Quickshell
 
