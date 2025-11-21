@@ -13,7 +13,6 @@ Item {
     id: root
 
     required property var screen
-    // We can have longer titles on ultrawide screens
     property int maxTitleLength: {
         if (screen.width / screen.height >= 21 / 9)
             return 140;
@@ -23,9 +22,6 @@ Item {
 
     signal requestShowPopover()
 
-    Component.onCompleted: {
-        FollowerStats.refresh();
-    }
     implicitWidth: button.implicitWidth + 16
     implicitHeight: 55
 
@@ -73,8 +69,8 @@ Item {
             Text {
                 id: fallbackEmoji
 
-                visible: imageSource === ""
-                text: root.fallBackEmoji
+                visible: FollowerStats.imageSource === ""
+                text: FollowerStats.fallBackEmoji
                 font.family: "ComicShannsMono Nerd Font Mono"
                 font.pixelSize: 22
                 color: Colors.text

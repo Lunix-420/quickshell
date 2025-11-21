@@ -20,7 +20,6 @@ Item {
 
     width: memory.implicitWidth
     height: memory.implicitHeight
-    Component.onCompleted: updateMainText()
 
     DisplayButton {
         id: memory
