@@ -16,31 +16,28 @@ Singleton {
     readonly property string imageSource: _imageSource
     readonly property string fallBackEmoji: _fallBackEmoji
     property var screen: null
+    // Hyprland
+    readonly property var toplevels: Hyprland.toplevels
+    readonly property var workspaces: Hyprland.workspaces
+    readonly property var monitors: Hyprland.monitors
+    readonly property HyprlandToplevel activeToplevel: getActiveToplevel()
+    readonly property HyprlandWorkspace focusedWorkspace: Hyprland.focusedWorkspace
+    readonly property HyprlandMonitor focusedMonitor: Hyprland.focusedMonitor
     // Internal state
-    property string _activeTitle: ""
-    property string _windowAddress: ""
-    property string _className: ""
-    property string _imageSource: ""
-    property string _fallBackEmoji: "🌀"
+    property string _activeTitle: getTitle(activeToplevel)
+    property string _className: getClassName(activeToplevel)
+    property string _imageSource: Icons.getAppIcon(_className)
+    property string _fallBackEmoji: Icons.getFallbackEmoji(_className)
 
-    // Public method to force refresh
-    function refresh() {
-        updateActiveWindowInfo();
-    }
+    function getActiveToplevel() {
+        var activeToplevel = Hyprland.activeToplevel;
+        if (!activeToplevel)
+            return null;
 
-    function updateActiveWindowInfo() {
-        Hyprland.refreshToplevels();
-        var activeToplevel = getActiveToplevel();
-        root._activeTitle = getTitle(activeToplevel);
-        root._className = getClassName(activeToplevel);
-        root._windowAddress = activeToplevel ? activeToplevel.address : "";
-        root._fallBackEmoji = Icons.getFallbackEmoji(root._className);
-        root._imageSource = Icons.getAppIcon(root._className);
-        // If class is empty the icon might load later; trigger the retry timer
-        console.log("Class name is: " + root._className);
-        if (root._className === "")
-            retryIconLoadingTimer.running = true;
+        if (activeToplevel.wayland && activeToplevel.wayland.activated)
+            return activeToplevel;
 
+        return null;
     }
 
     function getClassName(activeToplevel) {
@@ -62,7 +59,7 @@ Singleton {
 
     function getTitle(activeToplevel) {
         if (!activeToplevel || !activeToplevel.title)
-            return "Unnamed Window";
+            return "";
 
         var rawTitle = String(activeToplevel.title);
         if (rawTitle.includes("Visual Studio Code") && rawTitle.includes("●"))
@@ -71,36 +68,27 @@ Singleton {
         return rawTitle;
     }
 
-    function getActiveToplevel() {
-        if (!Hyprland)
-            return null;
-
-        return Hyprland.activeToplevel;
-    }
-
     Connections {
-        function onActiveToplevelChanged() {
-            console.log("Active toplevel changed");
-            root.updateActiveWindowInfo();
-        }
-
         function onRawEvent(event) {
-            if (event.name === "closewindow")
-                _activeTitle = "";
-
+            const name = event.name;
+            if (name === "configreloaded") {
+                root.configReloaded();
+                root.reloadDynamicConfs();
+            } else if (["workspace", "moveworkspace", "activespecial", "focusedmon"].includes(name)) {
+                Hyprland.refreshWorkspaces();
+                Hyprland.refreshMonitors();
+            } else if (["openwindow", "closewindow", "movewindow"].includes(name)) {
+                Hyprland.refreshToplevels();
+                Hyprland.refreshWorkspaces();
+            } else if (name.includes("mon"))
+                Hyprland.refreshMonitors();
+            else if (name.includes("workspace"))
+                Hyprland.refreshWorkspaces();
+            else if (name.includes("window") || name.includes("group") || ["pin", "fullscreen", "changefloatingmode", "minimize"].includes(name))
+                Hyprland.refreshToplevels();
         }
 
         target: Hyprland
-    }
-
-    Timer {
-        id: retryIconLoadingTimer
-
-        interval: 100
-        running: false
-        onTriggered: {
-            updateActiveWindowInfo();
-        }
     }
 
 }
