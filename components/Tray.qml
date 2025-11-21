@@ -14,19 +14,18 @@ Item {
     function getTrayIcon(modelData) {
         const id = modelData.id;
         let icon = modelData.icon;
-        // 1. Check manual overrides in iconSubs
+        // Check manual overrides in iconSubs
         const iconSubs = [];
         for (const sub of iconSubs) {
             if (sub.id === id)
                 return sub.image ? Qt.resolvedUrl(sub.image) : Quickshell.iconPath(sub.icon);
 
         }
-        // 2. Handle ?path= icons
+        // Handle ?path= icons
         if (icon.includes("?path=")) {
             const [name, path] = icon.split("?path=");
             icon = Qt.resolvedUrl(`${path}/${name.slice(name.lastIndexOf("/") + 1)}`);
         }
-        // 3. Return the processed icon
         return icon;
     }
 
