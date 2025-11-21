@@ -23,6 +23,9 @@ Item {
 
     signal requestShowPopover()
 
+    Component.onCompleted: {
+        FollowerStats.refresh();
+    }
     implicitWidth: button.implicitWidth + 16
     implicitHeight: 55
 

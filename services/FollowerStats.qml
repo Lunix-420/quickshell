@@ -17,6 +17,7 @@ Singleton {
     property var screen: null
     // Internal state
     property string _activeTitle: ""
+    property string _windowAddress: ""
     property string _className: ""
     property string _imageSource: ""
     property string _fallBackEmoji: "🌀"
@@ -27,12 +28,15 @@ Singleton {
     }
 
     function updateActiveWindowInfo() {
+        Hyprland.refreshToplevels();
         var activeToplevel = getActiveToplevel();
         root._activeTitle = getTitle(activeToplevel);
         root._className = getClassName(activeToplevel);
+        root._windowAddress = activeToplevel ? activeToplevel.address : "";
         root._fallBackEmoji = getFallbackEmoji();
         root._imageSource = getAppIcon(root._className);
         // If class is empty the icon might load later; trigger the retry timer
+        console.log("Class name is: " + root._className);
         if (root._className === "")
             retryIconLoadingTimer.running = true;
 
@@ -98,17 +102,10 @@ Singleton {
         return Hyprland.activeToplevel;
     }
 
-    Component.onCompleted: {
-        // Ensure initial values are populated
-        if (Hyprland)
-            Hyprland.refreshToplevels();
-
-        updateActiveWindowInfo();
-    }
-
     Connections {
         function onActiveToplevelChanged() {
-            updateActiveWindowInfo();
+            console.log("Active toplevel changed");
+            root.updateActiveWindowInfo();
         }
 
         function onRawEvent(event) {
@@ -125,13 +122,8 @@ Singleton {
 
         interval: 100
         running: false
-        repeat: true
         onTriggered: {
             updateActiveWindowInfo();
-            // stop if we have a valid icon or class
-            if (root._imageSource || root._className !== "")
-                retryIconLoadingTimer.running = false;
-
         }
     }
 
