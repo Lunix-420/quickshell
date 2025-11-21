@@ -1,6 +1,7 @@
 // FollowerWidget.qml
 import "../config"
 import "../services"
+import "../utils"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
@@ -12,18 +13,18 @@ Item {
     id: root
 
     required property var screen
+    // We can have longer titles on ultrawide screens
+    property int maxTitleLength: {
+        if (screen.width / screen.height >= 21 / 9)
+            return 140;
+        else
+            return 60;
+    }
 
     signal requestShowPopover()
 
     implicitWidth: button.implicitWidth + 16
     implicitHeight: 55
-    Component.onCompleted: {
-        FollowerStats.screen = screen;
-        FollowerStats.refresh();
-    }
-    onScreenChanged: {
-        FollowerStats.screen = screen;
-    }
 
     RectangularShadow {
         visible: FollowerStats.activeTitle !== ""
@@ -92,7 +93,7 @@ Item {
             Text {
                 id: mainLabel
 
-                text: FollowerStats.activeTitle
+                text: Strings.rightCrop(FollowerStats.activeTitle, maxTitleLength)
                 font.family: "Comic Sans MS"
                 font.pixelSize: 16
                 color: Colors.text

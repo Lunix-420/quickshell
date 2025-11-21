@@ -10,6 +10,19 @@ Singleton {
         return result;
     }
 
+    function rightCrop(inputString, targetLength, endingSequence = "...") {
+        let result = inputString.toString();
+        if (result.length <= targetLength)
+            return result;
+
+        const cropLength = targetLength - endingSequence.length;
+        if (cropLength <= 0)
+            return endingSequence;
+
+        result = result.substring(0, cropLength) + endingSequence;
+        return result;
+    }
+
     // Tries to round a number to fit a specific target string length
     function roundToLength(value, targetLength) {
         if (value === null || isNaN(value))

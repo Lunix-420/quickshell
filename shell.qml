@@ -47,17 +47,6 @@ ShellRoot {
     }
 
     PanelWindow {
-        // Rectangle {
-        //     id: cpuPopoverContent
-        //     implicitHeight: 300
-        //     implicitWidth: 400
-        // }
-        // Rectangle {
-        //     id: gpuPopoverContent
-        //     implicitHeight: 300
-        //     implicitWidth: 400
-        // }
-
         id: popover
 
         visible: false

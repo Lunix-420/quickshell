@@ -15,7 +15,6 @@ Singleton {
     readonly property string imageSource: _imageSource
     readonly property string fallBackEmoji: _fallBackEmoji
     property var screen: null
-    readonly property int maxCharacters: (screen && screen.name === "DP-1") ? 140 : 55
     // Internal state
     property string _activeTitle: ""
     property string _className: ""
@@ -74,12 +73,7 @@ Singleton {
         if (rawTitle.includes("Visual Studio Code") && rawTitle.includes("●"))
             rawTitle = rawTitle.replace("●", "").trim();
 
-        var maxChars = Math.max(0, root.maxCharacters);
-        if (rawTitle.length <= maxChars)
-            return rawTitle;
-
-        var truncationLength = Math.max(0, maxChars - 3);
-        return rawTitle.slice(0, truncationLength) + "...";
+        return rawTitle;
     }
 
     function getAppIcon() {
