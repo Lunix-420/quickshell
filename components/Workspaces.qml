@@ -107,8 +107,8 @@ Item {
                         font.weight: Font.Normal
                         font.pixelSize: 18
                         color: (modelData.active || modelData.urgent) ? Colors.textDark : Colors.text
-                        topPadding: 1.5
-                        leftPadding: 5
+                        topPadding: 5
+                        leftPadding: 9
                     }
 
                 }
