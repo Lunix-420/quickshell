@@ -53,7 +53,9 @@ Item {
 
         contentItem: Row {
             anchors.centerIn: parent
-            spacing: 4
+            spacing: 3
+            leftPadding: 2
+            rightPadding: 3
 
             Text {
                 id: emojiLabel
@@ -63,7 +65,7 @@ Item {
                 font.pixelSize: 20
                 color: Colors.text
                 leftPadding: 5
-                topPadding: 5
+                topPadding: 8
             }
 
             Text {
@@ -73,7 +75,7 @@ Item {
                 font.family: "ComicShannsMono Nerd Font Mono"
                 font.pixelSize: 16
                 color: Colors.text
-                topPadding: 7
+                topPadding: 10
             }
 
         }

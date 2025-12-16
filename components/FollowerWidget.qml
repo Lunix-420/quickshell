@@ -65,6 +65,7 @@ Item {
             anchors.centerIn: parent
             spacing: 4
             leftPadding: 5
+            topPadding: 2
 
             Text {
                 id: fallbackEmoji
@@ -74,8 +75,8 @@ Item {
                 font.family: "ComicShannsMono Nerd Font Mono"
                 font.pixelSize: 22
                 color: Colors.text
-                leftPadding: 4
-                topPadding: 4
+                leftPadding: 5
+                topPadding: 6
             }
 
             IconImage {
@@ -96,9 +97,9 @@ Item {
                 font.family: "Comic Sans MS"
                 font.pixelSize: 16
                 color: Colors.text
-                topPadding: 4
+                topPadding: 5
                 leftPadding: 3
-                rightPadding: 5
+                rightPadding: 3
             }
 
         }
