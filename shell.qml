@@ -22,6 +22,7 @@ ShellRoot {
 
             required property var modelData
 
+            exclusiveZone: 55
             screen: modelData
             onRequestShowPopover: function(screenRef) {
                 if (screenRef === undefined || screenRef === null)

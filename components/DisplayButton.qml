@@ -65,7 +65,7 @@ Item {
                 font.pixelSize: 20
                 color: Colors.text
                 leftPadding: 5
-                topPadding: 8
+                topPadding: 5
             }
 
             Text {
@@ -75,7 +75,7 @@ Item {
                 font.family: "ComicShannsMono Nerd Font Mono"
                 font.pixelSize: 16
                 color: Colors.text
-                topPadding: 10
+                topPadding: 7
             }
 
         }

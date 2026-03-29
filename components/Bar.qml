@@ -19,6 +19,12 @@ PanelWindow {
         right: true
     }
 
+    margins {
+        left: 0
+        right: 0
+        bottom: 0
+    }
+
     Item {
         anchors {
             top: parent.top
