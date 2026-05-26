@@ -91,6 +91,8 @@ PanelWindow {
         Tray {
             id: systemTray
 
+            screen: root.screen
+
             anchors {
                 left: workspacesBar.right
                 verticalCenter: parent.verticalCenter

@@ -12,6 +12,8 @@ import Quickshell.Widgets
 Item {
     id: root
 
+    required property var screen
+
     function getTrayIcon(modelData) {
         const id = modelData.id;
         let icon = modelData.icon;
@@ -36,6 +38,7 @@ Item {
     PanelWindow {
         id: panelWindow
 
+        screen: root.screen
         color: "transparent"
         anchors.top: true
         anchors.left: true
