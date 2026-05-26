@@ -36,7 +36,9 @@ Item {
     PanelWindow {
         id: panelWindow
 
-        visible: false
+        color: "transparent"
+        anchors.top: true
+        anchors.left: true
     }
 
     RectangularShadow {
@@ -89,7 +91,7 @@ Item {
                                 const baseX = 615;
                                 const offsetX = index * 32;
                                 const totalX = baseX + offsetX;
-                                modelData.display(panelWindow, totalX, 25);
+                                modelData.display(panelWindow, totalX, -35);
                             }
                             if (mouse.button == Qt.LeftButton)
                                 modelData.activate();
