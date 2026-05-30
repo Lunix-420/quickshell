@@ -42,6 +42,8 @@ Item {
         color: "transparent"
         anchors.top: true
         anchors.left: true
+        height: 0
+        width: 0
     }
 
     RectangularShadow {
