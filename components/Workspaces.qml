@@ -27,8 +27,13 @@ Item {
 
     implicitHeight: 55
     implicitWidth: workspaceRepeater.width
-    Component.onCompleted: {
-        Hyprland.refreshWorkspaces();
+
+    // Delay initial refresh to ensure Hyprland IPC is ready
+    Timer {
+        interval: 150
+        running: true
+        repeat: false
+        onTriggered: Hyprland.refreshWorkspaces()
     }
 
     Row {
@@ -107,7 +112,7 @@ Item {
                         font.weight: Font.Normal
                         font.pixelSize: 18
                         color: (modelData.active || modelData.urgent) ? Colors.textDark : Colors.text
-                        topPadding: 1.5
+                        topPadding: 3
                         leftPadding: 5
                     }
 
